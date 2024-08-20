@@ -1,0 +1,18 @@
+# Ignorer les modules node dans les deux répertoires
+backEnd/node_modules/
+frontEnd/node_modules/
+
+# Ignorer les fichiers de log
+*.log
+
+# Ignorer les fichiers de build du front-end
+frontEnd/dist/
+frontEnd/build/
+
+# Ignorer les fichiers environnement
+backEnd/.env
+frontEnd/.env
+
+# Ignorer d'autres fichiers spécifiques
+.DS_Store
+Thumbs.db
