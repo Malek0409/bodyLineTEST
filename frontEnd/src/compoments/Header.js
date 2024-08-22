@@ -17,7 +17,8 @@ const Header = () => {
     firstName: '',
     lastName: '',
     email: '',
-    picture: ''
+    picture: '',
+    type:''
   });
 
   const productCartItemsNumber = useSelector((state) => state.product.cartProductItems);
@@ -35,7 +36,8 @@ const Header = () => {
             firstName: res.data.firstName,
             lastName: res.data.lastName,
             email: res.data.email,
-            picture: res.data.picture
+            picture: res.data.picture,
+            type: res.data.type
           });
         } else {
          
@@ -99,13 +101,30 @@ const Header = () => {
            </div>
             {showMenu && (
              <div className='absolute top-30 right-2 bg-white shadow drop-shadow-md flex flex-col'>
-                   {console.log("User email:", user.email)}
 
-               {user.email === "malek@gmail.com" && (
-                  <Link to={"newproduct"} className='py-2 text-center text-3xl whitespace-nowrap cursor-pointer'>New product</Link>
+               {user.type === "ADMIN" && (
+                 <>
+                    <Link to="newproduct" className="py-2 text-center text-3xl whitespace-nowrap cursor-pointer text-amber-500">
+                      Nouveau produit
+                    </Link>
+                    
+                    <Link to="managementproduct" className="py-2 text-center text-3xl whitespace-nowrap cursor-pointer text-amber-500">
+                      Gestion produit
+                    </Link>
+                  </>
                 )}
                 {user.picture ? (
-                  <p className='text-3xl py-2 px-2 cursor-pointer text-white bg-red-500' onClick={handleDelete}>Logout--- {user.firstName}{user.lastName}</p>
+                <>
+                  <Link to={""} className="text-xl text-white bg-blue-500 py-2 px-3 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-blue-600">
+                    Bonjour {user.firstName} {user.lastName} !
+                   </Link>
+                    <Link to={"account"} className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300">
+                    mon compte 
+                  </Link>
+                  <Link to={""} className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300" onClick={handleDelete}>
+                      Deconnecté
+                  </Link>
+                </>
                 ) : (
                   <Link to={"login"} className='text-3xl whitespace-nowrap cursor-pointer py-1 px-3 text-center'>Login</Link>
                 )}

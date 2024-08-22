@@ -5,13 +5,14 @@ export const addProduct = async (req, res) => {
   try {
     const { title, price, currency, unitNumber, description, typeMachine, nameMuscle } = req.body;
     const picture = req.file ? req.file.buffer : null;
+    const available = "AVAILABLE"
 
     if (!title || !price || !currency || !unitNumber || !description) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const queryProductPost = "INSERT INTO product (`title`, `price`, `currency`, `unitNumber`, `description`) VALUES (?, ?, ?, ?, ?)";
-    const values = [title, price, currency, unitNumber, description];
+    const queryProductPost = "INSERT INTO product (`title`, `price`, `currency`, `unitNumber`, `description`, `available`) VALUES (?, ?, ?, ?, ?, ?)";
+    const values = [title, price, currency, unitNumber, description, available];
 
     bd.query(queryProductPost, values, async (err, result) => {
       if (err) {
@@ -107,6 +108,34 @@ export const getProduct = async (req, res) => {
       } else {
         return res.status(404).json({ error: "No products found" });
       }
+    });
+  } catch (err) {
+    console.error(err, " : Internal server error");
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const updateProduct = async (req, res) => {
+  console.log("ready for update")
+  try {
+    const { price, unitNumber, id } = req.body;
+
+    if (price === "" || unitNumber === "" || id === "") {
+        console.log("All fields are required" )
+
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const queryUpdate = "UPDATE product SET price = ?, unitNumber = ? WHERE id = ?";
+    const values = [price, unitNumber, id];
+
+    bd.query(queryUpdate, values, (err, result) => {
+      if (err) {
+        console.error(err, " : Database error");
+        return res.status(500).json({ error: "Database error" });
+      }
+
+      return res.status(200).json({ status: "Success" });
     });
   } catch (err) {
     console.error(err, " : Internal server error");

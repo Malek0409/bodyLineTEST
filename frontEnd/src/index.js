@@ -16,6 +16,12 @@ import { store } from './redux/index';
 import {Provider} from "react-redux"
 import Cart from './page/Cart';
 import Logout from './page/Logout';
+import Account from './page/Account';
+import ManagementProduct from './page/ManagementProduct';
+import MentionsLegales from './pageFooter/MentionLegales';
+
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,7 +35,11 @@ const router = createBrowserRouter(
       <Route path='newproduct' element={<NewProduct />}/>
       <Route path='signup' element={<Signup />} />
       <Route path='cart' element={<Cart />} />
-      <Route path='logout' element={<Logout />}/>
+      <Route path='logout' element={<Logout />} />
+      <Route path='account' element={<Account />} />
+      <Route path='managementproduct' element={<ManagementProduct />} />
+      <Route path='mentions-legales' element={<MentionsLegales />}/>
+
    </Route>
   )
 )

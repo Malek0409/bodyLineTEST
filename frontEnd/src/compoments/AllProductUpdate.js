@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CardFeature from './CardFeature';
+import CardFeatureUpdate from './CardFeatureUpdate';
 
-const AllProduct = ({ heading }) => {
+const AllProductUpdate = ({ heading }) => {
   
   
   
@@ -17,9 +17,9 @@ const AllProduct = ({ heading }) => {
       <div className='flex flex-wrap justify-center gap-6'>
         {
           dataFilter.length ? dataFilter.map((product, index) => (
-            <CardFeature key={index} product={product} />
+            <CardFeatureUpdate key={index} product={product} />
           )) : loadingArrayFeature.map((index) => (
-            <CardFeature loading="loading..." key={index + "allProduct"} />
+            <CardFeatureUpdate loading="loading..." key={index + "allProduct"} />
           ))
         }
       </div>
@@ -27,4 +27,4 @@ const AllProduct = ({ heading }) => {
   );
 };
 
-export default AllProduct;
+export default AllProductUpdate;

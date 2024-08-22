@@ -1,4 +1,4 @@
-import {memo, react} from 'react';
+import {memo} from 'react';
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { addCartProductItemps } from '../redux/productSlice'

@@ -10,10 +10,6 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    // setDataProduct: (state, action) => {
-    //       state.productList = [...action.payload.product];
-    //       console.log(action)
-    // },
     addCartProductItemps: (state, action) => {
         const check = state.cartProductItems.some(el => el.id === action.payload.product.id);
         if (check) {
@@ -54,8 +50,21 @@ export const productSlice = createSlice({
         const total = price * qtyDec;
         state.cartProductItems[index].total = total;
       }
+    },
+      updatedProduct: (state, action) => {
+      const index = state.productList.findIndex(product => product.id === action.payload.product.id);
+      if (index !== -1) {
+        state.productList[index] = {
+          ...state.productList[index],
+          ...action.payload.product
+        };
+        toast("Product updated successfully");
+      } else {
+        toast("Product not found");
+      }
     }
   }
+  
 });
 
 export const {
@@ -63,6 +72,7 @@ export const {
   addCartProductItemps,
   deleteCartProductItemps,
   increaseQty,
-  decreaseQty
+  decreaseQty,
+  updatedProduct
 } = productSlice.actions;
 export default productSlice.reducer;

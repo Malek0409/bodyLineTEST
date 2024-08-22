@@ -10,8 +10,11 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,15}$/;
 
 
 export const signUp = (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword, type } = req.body;
+ 
+  const { firstName, lastName, email, password, confirmPassword } = req.body;
   const picture = req.file ? req.file.buffer : null;
+  const type = "USER";
+  const actif = "ACTIF";
 
   if (!firstName || !lastName || !email || !password || !confirmPassword) {
     return res.status(400).json({ Error: "All fields are required" });
@@ -29,10 +32,8 @@ export const signUp = (req, res) => {
   bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) return res.status(500).json({ Error: "Error hashing password" });
 
-     const queryUserPost = "INSERT INTO user (`firstName`, `lastName`, `email`, `password`, `picture`, `type`) VALUES (?, ?, ?, ?, ?, ?)";
-    const values = [firstName, lastName, email, hash, picture, type];
-
-  console.log("type : ", type )
+     const queryUserPost = "INSERT INTO user (`firstName`, `lastName`, `email`, `password`, `picture`, `type`, `actif`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const values = [firstName, lastName, email, hash, picture, type, actif];
 
       bd.query(queryUserPost, values, (err) => {
         
@@ -46,9 +47,91 @@ export const signUp = (req, res) => {
   });
 };
 
+export const updateUser = (req, res) => {
+  console.log("start update user !!!!")
+  const { firstName, lastName, email, password, confirmPassword } = req.body;
+  const picture = req.file ? req.file.buffer : null;
+  const userId = req.userId; 
+  console.log(req.body)
+  
+  if (firstName === "" || lastName === "" || email === "") {
+    console.log("First Name, Last Name, and Email are required.");
+    return res.status(400).json({ Error: "First Name, Last Name, and Email are required." });
+  }
+
+  if (password && confirmPassword) {
+    if (password !== confirmPassword) {
+      return res.status(400).json({ Error: "Passwords do not match." });
+    }
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        Error: "Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, and one special character.",
+      });
+    }
+
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      if (err) return res.status(500).json({ Error: "Error hashing password" });
+
+      const queryUpdateUser = `
+        UPDATE user 
+        SET firstName = ?, lastName = ?, email = ?, password = ?, picture = ? 
+        WHERE id = ?`;
+      const values = [firstName, lastName, email, hash, picture, userId];
+
+      bd.query(queryUpdateUser, values, (err) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ Error: "Error updating user information" });
+        }
+
+        return res.status(200).json({
+          status: "Success",
+          firstName,
+          lastName,
+          email,
+          picture
+        });
+      });
+    });
+  } else {
+    const queryUpdateUser = `
+      UPDATE user 
+      SET firstName = ?, lastName = ?, email = ?, picture = ? 
+      WHERE id = ?`;
+    const values = [firstName, lastName, email, picture, userId];
+
+    bd.query(queryUpdateUser, values, (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ Error: "Error updating user information" });
+      }
+
+      return res.status(200).json({
+        status: "Success",
+        firstName,
+        lastName,
+        email,
+        picture
+      });
+    });
+  }
+};
+export const deactivateUser = (req, res) => {
+  const userId = req.userId; 
+
+  const queryDeactivateUser = `UPDATE user SET actif = 'INACTIF' WHERE id = ?`;
+  bd.query(queryDeactivateUser, [userId], (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ Error: "Error deactivating user account" });
+    }
+
+    return res.status(200).json({ status: "Account deactivated successfully" });
+  });
+};
 
 export const login =  (req, res) => {
-  console.log("Running post data for connected");
 
   const queryFindEmailForUser = "SELECT * FROM user WHERE email = ?";
   bd.query(queryFindEmailForUser, [req.body.email], (err, data) => {
@@ -80,7 +163,7 @@ export const login =  (req, res) => {
   });
 };
 
-export const authUser =  (req, res) => {
+export const authUser = (req, res) => {
    if (!req.userId) {
         return res.status(401).json({ Error: "Unauthorized" });
     }
@@ -89,10 +172,10 @@ export const authUser =  (req, res) => {
             u.firstName, 
             u.lastName, 
             u.email,
-            p.picture
+            u.picture,
+            u.type
         FROM 
             user u 
-            LEFT JOIN pictureUser p ON u.id = p.userId
         WHERE 
             u.id = ?
     `;
@@ -105,11 +188,13 @@ export const authUser =  (req, res) => {
         if (result.length > 0) {
             const user = result[0];
             const picture = user.picture ? user.picture.toString('base64') : null;
+          
             return res.status(200).json({ 
                 status: "Success", 
                 firstName: user.firstName, 
                 lastName: user.lastName, 
                 email: user.email, 
+                type: user.type,
                 picture, 
                  
             });
