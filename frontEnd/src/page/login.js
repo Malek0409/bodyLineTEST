@@ -45,7 +45,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}login`, {
+      const res = await axios.post("http://localhost:8080/login", {
         ...data,
         recaptcha: captchaValue
       });

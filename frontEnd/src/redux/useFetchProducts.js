@@ -9,7 +9,7 @@ const useFetchProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}getProduct`);
+        const response = await axios.get("http://localhost:8080/getProduct");
         if (response.data.status === "Success") {
           setProducts(response.data.products);
         } else {

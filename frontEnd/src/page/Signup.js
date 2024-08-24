@@ -43,6 +43,7 @@ const Signup = () => {
   
 
   const handleSubmit = async (e) => {
+    console.log("start signUP")
     e.preventDefault();
     const formData = new FormData();
     formData.append("firstName", data.firstName);
@@ -55,13 +56,13 @@ const Signup = () => {
     if (data.firstName && data.lastName && data.email && data.password && data.confirmPassword) {
       if (data.password === data.confirmPassword) {
         try {
-          const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}signup`, formData, {
+          const res = await axios.post("http://localhost:8080/signup", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
           });
           if (res.data.status === "Success") {
-            navigate("/login");
+            navigate("/verify-code");
             alert(res.data.status);
           } else {
             alert(res.data.Error);

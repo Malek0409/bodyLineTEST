@@ -1,7 +1,7 @@
 import express from "express"
 import  jwt  from "jsonwebtoken"
 import multer from "multer";
-import { login, logout, signUp, authUser, updateUser, deactivateUser } from "../controllers/auth.js";
+import { login, logout, signUp, authUser, updateUser, deactivateUser, verifyEmail } from "../controllers/auth.js";
 
 const router = express.Router();
 const storage = multer.memoryStorage();
@@ -30,6 +30,7 @@ router.get("/user", verifyUser, authUser );
 router.get("/logout", logout);
 router.put("/updateUser", updateUser);
 router.post("/deactivateUser", deactivateUser);
+router.post("/verify-code", verifyEmail);
 
 
 export default router;

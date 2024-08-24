@@ -1,22 +1,24 @@
-import {memo} from 'react';
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { addCartProductItemps } from '../redux/productSlice'
+import { memo } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { addCartProductItemps } from '../redux/productSlice';
 import useFetchProducts from '../redux/useFetchProducts';
 
-
-const CardFeature = () => {
+const CardFeature = ({ selectedCategory }) => {
   const dispatch = useDispatch();
   const { products, loading } = useFetchProducts();
-  
+
   const handleAddCartProduct = (product) => {
     dispatch(addCartProductItemps({ product }));
-    
   };
+
+  const filteredProducts = selectedCategory
+    ? products.filter(product => product.typeMachine === selectedCategory)
+    : products;
 
   return (
     <div className='flex flex-wrap justify-center'>
-      {products.length > 0 ? products.map((product) => (
+      {filteredProducts.length > 0 ? filteredProducts.map((product) => (
         <div key={product.id} className='max-w-[280px] bg-white p-4 m-2 cursor-pointer'>
           <Link to={`/menu/${product.id}`} onClick={() => window.scrollTo({ top: "0", behavior: "smooth" })}>
             <img src={`data:image/jpeg;base64,${product.picture}`} className='h-60 w-80' alt='' />
@@ -38,6 +40,6 @@ const CardFeature = () => {
       )}
     </div>
   );
-}
+};
 
 export default memo(CardFeature);

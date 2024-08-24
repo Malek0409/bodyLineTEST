@@ -39,7 +39,7 @@ const router = createBrowserRouter(
       <Route path='account' element={<Account />} />
       <Route path='managementproduct' element={<ManagementProduct />} />
       <Route path='mentions-legales' element={<MentionsLegales />} />
-      <Route path="/verify-code" element={<VerifyCode />} />
+      <Route path="verify-code" element={<VerifyCode />} />
 
    </Route>
   )

@@ -13,7 +13,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}getProduct/${filterby}`);
+        const response = await axios.get(`http://localhost:8080/getProduct/${filterby}`);
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching the product data', error);

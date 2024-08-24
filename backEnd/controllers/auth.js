@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import { bd } from "../bd.js"
 import crypto from 'crypto';
 import sendConfirmationEmail from "../helpers/sendMail.js";
+import { promisify } from 'util';
 
  
 
@@ -10,43 +11,64 @@ const saltRounds = 10
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,15}$/;
 
-export const signUp = (req, res) => {
-
-
+export const signUp = async (req, res) => {
+  console.log("start signUP")
     const { firstName, lastName, email, password, confirmPassword } = req.body;
     const picture = req.file ? req.file.buffer : null;
     const type = "USER";
-    const actif = "ACTIF";
+    const actif = "INACTIF"; 
+    const code = crypto.randomBytes(3).toString('hex'); 
 
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
-    return res.status(400).json({ Error: "All fields are required" });
+        return res.status(400).json({ Error: "All fields are required" });
     }
 
     if (password !== confirmPassword) {
-    return res.status(400).json({ Error: "Passwords do not match" });
+        return res.status(400).json({ Error: "Passwords do not match" });
     }
 
     if (!passwordRegex.test(password)) {
-    return res.status(400).json({ Error: "Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, and one special character." });
-  }
-
-
-  bcrypt.hash(password, saltRounds, (err, hash) => {
-    if (err) return res.status(500).json({ Error: "Error hashing password" });
-
-     const queryUserPost = "INSERT INTO user (`firstName`, `lastName`, `email`, `password`, `picture`, `type`, `actif`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    const values = [firstName, lastName, email, hash, picture, type, actif];
-
-      bd.query(queryUserPost, values, (err) => {
-        
-      if (err) {
-        console.log(err);
-        return res.status(409).json({ Error: "The email already exists; you need to try a different one." });
+        return res.status(400).json({ Error: "Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, and one special character." });
     }
 
-      return res.status(200).json({ status: "Success" });
+    try {
+        const hash = await promisify(bcrypt.hash)(password, saltRounds);
+        
+        const queryUserPost = "INSERT INTO user (`firstName`, `lastName`, `email`, `password`, `picture`, `type`, `actif`, `confirmationCode`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        const values = [firstName, lastName, email, hash, picture, type, actif, code];
+
+        bd.query(queryUserPost, values, async (err) => {
+            if (err) {
+                console.log(err);
+                return res.status(409).json({ Error: "The email already exists; you need to try a different one." });
+            }
+
+            
+            await sendConfirmationEmail(email, code);
+
+            return res.status(200).json({ status: "Success", message: "Check your email for the confirmation code." });
+        });
+    } catch (err) {
+        return res.status(500).json({ Error: "Server error" });
+    }
+};
+
+
+export const verifyEmail = (req, res) => {
+    const { email, code } = req.body;
+
+    const query = "SELECT * FROM user WHERE email = ? AND confirmationCode = ?";
+    bd.query(query, [email, code], (err, results) => {
+        if (err) return res.status(500).json({ Error: "Server error" });
+        if (results.length === 0) return res.status(400).json({ Error: "Invalid code or email" });
+
+        const updateQuery = "UPDATE user SET actif = 'ACTIF', confirmationCode = NULL WHERE email = ?";
+        bd.query(updateQuery, [email], (err) => {
+            if (err) return res.status(500).json({ Error: "Server error" });
+
+            return res.status(200).json({ status: "Success", message: "Email verified successfully" });
+        });
     });
-  });
 };
 
 export const updateUser = (req, res) => {

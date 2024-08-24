@@ -66,6 +66,7 @@ if (nameMuscle) {
   
 
 export const getProduct = async (req, res) => {
+  console.log("product display")
   try {
     const queryGetProduct = `
       SELECT
