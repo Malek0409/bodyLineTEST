@@ -59,98 +59,98 @@ const Header = () => {
     }
   };
   
- return (
-    <header className='fixed w-full drop-shadow-md shadow-md bg-white z-10'>
-      <div className='flex justify-between pr-8 pl-4'>
-        <Link to={""}>
-          <img src={logoApp} className='h-20 w-32 md:h-32 md:w-48' alt="Logo" />
-        </Link>
+return (
+  <header className='fixed w-full drop-shadow-md shadow-md bg-white z-10'>
+    <div className='flex justify-between pr-8 pl-4'>
+      <Link to={""}>
+        <img src={logoApp} className='h-20 w-32 md:h-32 md:w-48' alt="Logo" />
+      </Link>
 
-        <div className='flex items-center'>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border border-gray-700 rounded-lg p-2 sm:w-80 md:w-96"
-          />
+      <div className='flex items-center'>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="border border-gray-700 rounded-lg p-2 sm:w-80 md:w-96"
+        />
+      </div>
+
+      <div className='flex items-center gap-10 md:gap-7 pb-4 md:pb-4'>
+        <nav className='gap-4 md:gap-6 md:text-lg hidden md:flex'>
+          <Link className='text-3xl' to={""}>Home</Link>
+          <Link className='text-3xl' to={"menu/65c7269a5a9b17e45a15f44f"}>Menu</Link>
+          <Link className='text-3xl' to={"about"}>About</Link>
+          <Link className='text-3xl' to={"contact"}>Contact</Link>
+        </nav>
+
+        <div className='text-4xl md:text-5xl text-slate-600'>
+          <Link to={"cart"}>
+            <BsCartFill />
+            <div className="text-2xl md:text-1xl absolute top-3 md:top-2 text-white bg-red-500 w-6 text-center rounded-full">
+              {productCartItemsNumber.length}
+            </div>
+          </Link>
         </div>
 
-        <div className='flex items-center gap-10 md:gap-7 pb-4 md:pb-4'>
-          <nav className='gap-4 md:gap-6 md:text-lg hidden md:flex'>
-            <Link className='text-3xl' to={""}>Home</Link>
-            <Link className='text-3xl' to={"menu/65c7269a5a9b17e45a15f44f"}>Menu</Link>
-            <Link className='text-3xl' to={"about"}>About</Link>
-            <Link className='text-3xl' to={"contact"}>Contact</Link>
-          </nav>
-
-          <div className='text-4xl md:text-5xl text-slate-600'>
-            <Link to={"cart"}>
-              <BsCartFill />
-              <div className="text-2xl md:text-1xl absolute top-3 md:top-2 text-white bg-red-500 w-6 text-center rounded-full">
-                {productCartItemsNumber.length}
-              </div>
-            </Link>
-          </div>
-
-          <div className='text-3xl md:text-4xl text-slate-600' onClick={handleShowMenu}>
-            <div className='border-4 border-solid border-slate-600 p-1 rounded-full cursor-pointer'>
-              {user.picture ? (
-                <img key={user.picture} src={`data:image/jpeg;base64,${user.picture}`} className='h-16 w-16 rounded-full' alt="User" />
-              ) : (
-                <FaUserAlt />
-              )}
-           </div>
-            {showMenu && (
-             <div className='absolute top-30 right-2 bg-white shadow drop-shadow-md flex flex-col'>
-
-               {user.type === "ADMIN" && (
-                 <>
-                    <Link to="newproduct" className="py-2 text-center text-3xl whitespace-nowrap cursor-pointer text-amber-500">
-                      Nouveau produit
-                    </Link>
-                    
-                    <Link to="managementproduct" className="py-2 text-center text-3xl whitespace-nowrap cursor-pointer text-amber-500">
-                      Gestion produit
-                    </Link>
-                  </>
-                )}
-                {user.picture ? (
-                <>
-                  <Link to={""} className="text-xl text-white bg-blue-500 py-2 px-3 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-blue-600">
-                    Bonjour {user.firstName} {user.lastName} !
-                   </Link>
-                    <Link to={"account"} className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300">
-                    mon compte 
-                  </Link>
-                  <Link to={""} className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300" onClick={handleDelete}>
-                      Deconnecté
-                  </Link>
-                </>
-                ) : (
-                  <Link to={"login"} className='text-3xl whitespace-nowrap cursor-pointer py-1 px-3 text-center'>Login</Link>
-                )}
-                <nav className='text-base md:text-lg flex flex-col min-w-[100px] text-center md:hidden'>
-                  <Link to={""} className='px-2 py-1'>Home</Link>
-                  <Link to={"menu/65c7269a5a9b17e45a15f44f"} className='px-2 py-1'>Menu</Link>
-                  <Link to={"about"} className='px-2 py-1'>About</Link>
-                  <Link to={"contact"} className='px-2 py-1'>Contact</Link>
-                </nav>
-              </div>
+        <div className='text-3xl md:text-4xl text-slate-600' onClick={handleShowMenu}>
+          <div className='border-4 border-solid border-slate-600 p-1 rounded-full cursor-pointer'>
+            {user.picture ? (
+              <img key={user.picture} src={`data:image/jpeg;base64,${user.picture}`} className='h-16 w-16 rounded-full' alt="User" />
+            ) : (
+              <FaUserAlt />
             )}
           </div>
+          {showMenu && (
+            <div className='absolute top-30 right-2 bg-white shadow drop-shadow-md flex flex-col'>
+              {user.picture && (
+                <Link to={""} className="text-xl text-white bg-yellow-500 py-2 px-3 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-yellow-600">
+                  Bonjour {user.firstName} {user.lastName} !
+                </Link>
+              )}
+              {user.type === "ADMIN" && (
+                <>
+                  <Link to="newproduct" className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300">
+                    Nouveau produit
+                  </Link>
+                  <Link to="managementproduct" className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300">
+                    Gestion produit
+                  </Link>
+                </>
+              )}
+              {user.picture ? (
+                <>
+                  <Link to={"account"} className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300">
+                    Mon compte 
+                  </Link>
+                  <Link to={""} className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300" onClick={handleDelete}>
+                    Déconnecté
+                  </Link>
+                </>
+              ) : (
+                <Link to={"login"} className='text-3xl whitespace-nowrap cursor-pointer py-1 px-3 text-center'>Login</Link>
+              )}
+              <nav className='text-base md:text-lg flex flex-col min-w-[100px] text-center md:hidden'>
+                <Link to={""} className='px-2 py-1'>Home</Link>
+                <Link to={"menu/65c7269a5a9b17e45a15f44f"} className='px-2 py-1'>Menu</Link>
+                <Link to={"about"} className='px-2 py-1'>About</Link>
+                <Link to={"contact"} className='px-2 py-1'>Contact</Link>
+              </nav>
+            </div>
+          )}
         </div>
       </div>
+    </div>
 
-      <div className='py-4 bg-gray-100'>
-        <div className='flex justify-center gap-4'>
-          {muscles.map((muscle, index) => (
-            <button key={index} className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 h-10 w-32'>
-              {muscle}
-            </button>
-          ))}
-        </div>
+    <div className='bg-gray-100 py-2'>
+      <div className='container mx-auto flex flex-wrap justify-center gap-2'>
+        {muscles.map((muscle, index) => (
+          <button key={index} className='text-black py-2 px-4 rounded-lg bg-yellow-500 hover:bg-yellow-600 transition-colors duration-300'>
+            {muscle}
+          </button>
+        ))}
       </div>
-    </header>
-  );
+    </div>
+  </header>
+);
 }
 
 export default Header;

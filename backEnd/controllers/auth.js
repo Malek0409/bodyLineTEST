@@ -1,6 +1,8 @@
 import  jwt  from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { bd } from "../bd.js"
+import crypto from 'crypto';
+import sendConfirmationEmail from "../helpers/sendMail.js";
 
  
 
@@ -8,23 +10,23 @@ const saltRounds = 10
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,15}$/;
 
-
 export const signUp = (req, res) => {
- 
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
-  const picture = req.file ? req.file.buffer : null;
-  const type = "USER";
-  const actif = "ACTIF";
 
-  if (!firstName || !lastName || !email || !password || !confirmPassword) {
+
+    const { firstName, lastName, email, password, confirmPassword } = req.body;
+    const picture = req.file ? req.file.buffer : null;
+    const type = "USER";
+    const actif = "ACTIF";
+
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
     return res.status(400).json({ Error: "All fields are required" });
-  }
+    }
 
-  if (password !== confirmPassword) {
+    if (password !== confirmPassword) {
     return res.status(400).json({ Error: "Passwords do not match" });
-  }
+    }
 
-  if (!passwordRegex.test(password)) {
+    if (!passwordRegex.test(password)) {
     return res.status(400).json({ Error: "Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, and one special character." });
   }
 
@@ -40,7 +42,7 @@ export const signUp = (req, res) => {
       if (err) {
         console.log(err);
         return res.status(409).json({ Error: "The email already exists; you need to try a different one." });
-      }
+    }
 
       return res.status(200).json({ status: "Success" });
     });

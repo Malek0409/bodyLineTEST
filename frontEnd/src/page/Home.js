@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { FcPrevious, FcNext } from "react-icons/fc";
-import HomeCard from '../compoments/HomeCard';
 import CardFeature from '../compoments/CardFeature';
 import AllProduct from '../compoments/AllProduct';
+import videoFitness from '../assest/videoFitness.mp4';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('machines');
@@ -24,24 +24,17 @@ const Home = () => {
 
   return (
     <div className='p-2 md:p-10'>
-      <div className='md:flex py-2'>
-        <div className='md:w-1/2'>
-          <iframe 
-            className='w-full h-full md:h-full' 
-            src="https://www.youtube.com/embed/your-video-id" 
-            frameBorder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen
-            title="Video Title"
-          ></iframe>
+      
+     <div className=' p-12 px-0'>
+          <video 
+            className='w-full h-[800px] object-cover' 
+            controls 
+            src={videoFitness}
+          >
+            Your browser does not support the video tag.
+          </video>
         </div>
-
-        <div className='md:w-1/2 flex flex-wrap gap-3 p-12 md:pr-2 justify-center'>
-          
-            <HomeCard />
-         
-        </div>
-      </div>
+      
 
       <div className='p-4'>
         <div className='flex w-full items-center'>

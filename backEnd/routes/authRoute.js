@@ -31,6 +31,7 @@ router.get("/logout", logout);
 router.put("/updateUser", updateUser);
 router.post("/deactivateUser", deactivateUser);
 
+
 export default router;
 
 
