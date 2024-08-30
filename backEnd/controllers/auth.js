@@ -1,12 +1,14 @@
 import  jwt  from "jsonwebtoken"
-import bcrypt from "bcrypt"
 import { bd } from "../bd.js"
 import crypto from 'crypto';
 import sendConfirmationEmail from "../helpers/sendMail.js";
 import { promisify } from 'util';
+import bcrypt from "bcrypt"
+import csrf from 'csrf';
+
 
  
-
+const csrfProtection = new csrf();
 const saltRounds = 10
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,15}$/;
@@ -34,11 +36,11 @@ export const signUp = async (req, res) => {
     try {
         const hash = await promisify(bcrypt.hash)(password, saltRounds);
         
-        const queryUserPost = "INSERT INTO user (`firstName`, `lastName`, `email`, `password`, `picture`, `type`, `actif`, `confirmationCode`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      const queryUserPost = "INSERT INTO user (`firstName`, `lastName`, `email`, `password`, `picture`, `type`, `actif`, `confirmationCode`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         const values = [firstName, lastName, email, hash, picture, type, actif, code];
 
         bd.query(queryUserPost, values, async (err) => {
-            if (err) {
+          if (err) {
                 console.log(err);
                 return res.status(409).json({ Error: "The email already exists; you need to try a different one." });
             }
@@ -155,37 +157,45 @@ export const deactivateUser = (req, res) => {
   });
 };
 
-export const login =  (req, res) => {
-
+export const login = (req, res) => {
   const queryFindEmailForUser = "SELECT * FROM user WHERE email = ?";
+
   bd.query(queryFindEmailForUser, [req.body.email], (err, data) => {
     if (err) {
-      console.error("Login error in server: ", err);
-      return res.status(500).json({ Error: "Login error in server" });
+      console.error("Login error in server:", err);
+      return res.status(500).json({ Error: "Server error during login" });
     }
-    if (data.length > 0) {
-      bcrypt.compare(req.body.password.toString(), data[0].password, (err, response) => {
-        if (err) {
-          console.error("Password compare error: ", err);
-          return res.status(500).json({ Error: "Password compare error" });
-        }
 
-        if (response) {
-          const { id } = data[0];
-          const token = jwt.sign({ userId: id }, "jwt-secret-key", { expiresIn: "1d" });
-          res.cookie('token', token);
-          console.log("Login successfully");
-          return res.status(200).json({ status: "Success" });
-        } else {
-          return res.status(401).json({ Error: "Password not matched" });
-        }
-      });
-    } else {
-      return res.status(404).json({ Error: "No email existed" });
+    if (data.length === 0) {
+      return res.status(404).json({ Error: "Email not found" });
     }
-    console.log("Success")
+
+    const user = data[0];
+
+    bcrypt.compare(req.body.password.toString(), user.password, (err, isMatch) => {
+      if (err) {
+        console.error("Password compare error:", err);
+        return res.status(500).json({ Error: "Error comparing passwords" });
+      }
+
+      if (!isMatch) {
+        return res.status(401).json({ Error: "Incorrect password" });
+      }
+
+      const csrfToken = csrfProtection.create('csrf-secret-key');
+      const token = jwt.sign({ userId: user.id }, "jwt-secret-key", { expiresIn: "1d" });
+      
+      res.cookie('token', token);
+      res.cookie('csrfToken', csrfToken);
+      
+      console.log("Login successful");
+      return res.status(200).json({ status: "Success" });
+    });
   });
 };
+
+
+
 
 export const authUser = (req, res) => {
    if (!req.userId) {

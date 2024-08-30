@@ -6,6 +6,7 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+
 router.post('/addProduct', upload.single('productPicture'), addProduct)
 router.get('/getProduct', getProduct)
 router.get('/getProductByRand/:productId', getProductByRand)

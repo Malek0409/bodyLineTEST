@@ -66,7 +66,6 @@ if (nameMuscle) {
   
 
 export const getProduct = async (req, res) => {
-  console.log("product display")
   try {
     const queryGetProduct = `
       SELECT
@@ -201,3 +200,9 @@ export const getProductByRand = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+
+
+
+

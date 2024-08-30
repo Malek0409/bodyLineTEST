@@ -1,29 +1,39 @@
-import { bd } from "../bd.js"
 
-export const getContent = async (req, res) => {
-  try {
-    const queryGetContent = `
-      SELECT
-          c.id,
-          c.legal_notices,
-          c.conditions_generales,
-          c.privacy_policy,
-          c.personal_data,
-        
-      FROM
-          content as c
-          
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export const saveContent = (req, res) => {
+  const { content } = req.body;
+  const { type } = req.params;
   
-    `;
+  
+  const filePath = path.join(__dirname, `../filePages/${type}.txt`);
 
-    bd.query(queryGetContent,[req], (err, result) => {
-      if (err) {
-        console.error(err, " : Database error");
-        return res.status(500).json({ error: "Error fetching content data" });
-      }
-    });
-  } catch (err) {
-    console.error(err, " : Internal server error");
-    return res.status(500).json({ error: "Internal server error" });
-  }
+  fs.writeFile(filePath, content, 'utf8', (err) => {
+    if (err) {
+      console.error('Erreur lors de la sauvegarde du fichier:', err);
+      return res.status(500).json({ status: 'Error', message: 'Erreur lors de la sauvegarde.' });
+    }
+    console.log('Le fichier a été sauvegardé avec succès.');
+    return res.status(200).json({ status: 'Success', message: 'Le contenu a été sauvegardé avec succès.' });
+  });
+};
+
+export const getContent = (req, res) => {
+  const { type } = req.params;
+  const filePath = path.join(__dirname, `../filePages/${type}.txt`);
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors de la lecture du fichier:', err);
+      return res.status(500).json({ status: 'Error', message: 'Erreur lors de la lecture du fichier.' });
+    }
+    return res.status(200).json({ status: 'Success', content: data });
+  });
 };

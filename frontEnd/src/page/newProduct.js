@@ -41,7 +41,7 @@ const NewProduct = () => {
   const handleOnChange = (e) => {
   const { name, value, checked } = e.target;
 
-  console.log("Event target details:", { name, value, checked }); // Afficher les détails de l'événement
+  console.log("Event target details:", { name, value, checked });
 
   if (name === "nameMuscle") {
     if (checked) {
@@ -50,7 +50,7 @@ const NewProduct = () => {
           ...prev,
           nameMuscle: [...prev.nameMuscle, value]
         };
-        console.log("Updated data with checked:", newData); // Afficher les nouvelles données si checked est true
+        console.log("Updated data with checked:", newData); 
         return newData;
       });
     } else {
@@ -59,7 +59,7 @@ const NewProduct = () => {
           ...prev,
           nameMuscle: prev.nameMuscle.filter(muscle => muscle !== value)
         };
-        console.log("Updated data with unchecked:", newData); // Afficher les nouvelles données si checked est false
+        console.log("Updated data with unchecked:", newData); 
         return newData;
       });
     }
@@ -69,7 +69,7 @@ const NewProduct = () => {
         ...prev,
         [name]: value,
       };
-      console.log("Updated data for other inputs:", newData); // Afficher les nouvelles données pour les autres inputs
+      console.log("Updated data for other inputs:", newData); 
       return newData;
     });
   }
@@ -222,7 +222,7 @@ const NewProduct = () => {
         <label htmlFor='description'>Description</label>
         <textarea rows={2} className='bg-slate-200 p-1 my-1 resize-none' id='description' name='description' onChange={handleOnChange} value={data.description}></textarea>
 
-        <button className='bg-red-500 hover:bg-red-700 text-lg drop-shadow font-medium my-2 '>Save</button>
+        <button className='bg-sky-500 hover:bg-sky-600 text-lg drop-shadow font-medium my-2 '>Save</button>
       </form>
     </div>
   )

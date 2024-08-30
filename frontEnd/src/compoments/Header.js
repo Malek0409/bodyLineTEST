@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import logoApp from "../assest/logoApp.jpeg";
 import { FaUserAlt } from "react-icons/fa";
 import { BsCartFill } from "react-icons/bs";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from "axios";
 import { useSelector } from 'react-redux'
 
 
 const Header = () => {
   axios.defaults.withCredentials = true;
-  const muscles = ["Jambes", "Fesses", "Lombaire", "Dorceaux", "Biceps", "Triceps", "Trapèzes", "Pecteraux", "Epaules"]; 
+  const muscles = ["Jambes", "Fesses", "Lombaire", "Dorceaux", "Biceps", "Triceps", "Trapèzes", "Pecteraux", "Epaules"];
 
 
   const [showMenu, setShowMenu] = useState(false);
@@ -18,7 +18,7 @@ const Header = () => {
     lastName: '',
     email: '',
     picture: '',
-    type:''
+    type: ''
   });
 
   const productCartItemsNumber = useSelector((state) => state.product.cartProductItems);
@@ -39,6 +39,7 @@ const Header = () => {
             picture: res.data.picture,
             type: res.data.type
           });
+          
         } else {
          
         }
@@ -46,6 +47,7 @@ const Header = () => {
         console.log(`Error: ${err}`);
       }
     };
+
 
     fetchUser();
   }, []);
@@ -58,100 +60,105 @@ const Header = () => {
       console.log(err);
     }
   };
+
+  const location = useLocation();
   
-return (
-  <header className='fixed w-full drop-shadow-md shadow-md bg-white z-10'>
-    <div className='flex justify-between pr-8 pl-4'>
-      <Link to={""}>
-        <img src={logoApp} className='h-20 w-32 md:h-32 md:w-48' alt="Logo" />
-      </Link>
+  return (
+    <header className='fixed w-full drop-shadow-md shadow-md bg-white z-10'>
+      <div className='flex justify-between pr-8 pl-4'>
+        <Link to={""}>
+          <img src={logoApp} className='h-20 w-32 lg:h-32 lg:w-48' alt="Logo" />
+        </Link>
 
-      <div className='flex items-center'>
-        <input
-          type="text"
-          placeholder="Search..."
-          className="border border-gray-700 rounded-lg p-2 sm:w-80 md:w-96"
-        />
-      </div>
+        <div className='hidden lg:flex items-center'>
+          <input
+            type="text"
+            placeholder="Search..."
+            className="border border-gray-300 rounded-lg p-2 w-64 xl:w-80"
+          />
+        </div>
 
-      <div className='flex items-center gap-10 md:gap-7 pb-4 md:pb-4'>
-        <nav className='gap-4 md:gap-6 md:text-lg hidden md:flex'>
-          <Link className='text-3xl' to={""}>Home</Link>
-          <Link className='text-3xl' to={"menu/65c7269a5a9b17e45a15f44f"}>Menu</Link>
-          <Link className='text-3xl' to={"about"}>About</Link>
-          <Link className='text-3xl' to={"contact"}>Contact</Link>
-        </nav>
+        <div className='flex items-center gap-4 lg:gap-6 xl:gap-8'>
+          <nav className='hidden lg:flex gap-4 xl:gap-6'>
+            <Link className='text-lg lg:text-xl xl:text-2xl hover:text-yellow-500 transition-colors duration-300' to={""}>Accueil</Link>
+            <Link className='text-lg lg:text-xl xl:text-2xl hover:text-yellow-500 transition-colors duration-300' to={"menu/65c7269a5a9b17e45a15f44f"}>Menu</Link>
+            <Link className='text-lg lg:text-xl xl:text-2xl hover:text-yellow-500 transition-colors duration-300' to={"about"}>À propos</Link>
+            <Link className='text-lg lg:text-xl xl:text-2xl hover:text-yellow-500 transition-colors duration-300' to={"contact"}>Contact</Link>
+          </nav>
 
         <div className='text-4xl md:text-5xl text-slate-600'>
-          <Link to={"cart"}>
-            <BsCartFill />
+            <Link to={"cart"}>
+              <BsCartFill />
+            </Link>
             <div className="text-2xl md:text-1xl absolute top-3 md:top-2 text-white bg-red-500 w-6 text-center rounded-full">
-              {productCartItemsNumber.length}
+              {productCartItemsNumber?.length || 0}
             </div>
-          </Link>
-        </div>
+          </div>
 
-        <div className='text-3xl md:text-4xl text-slate-600' onClick={handleShowMenu}>
-          <div className='border-4 border-solid border-slate-600 p-1 rounded-full cursor-pointer'>
-            {user.picture ? (
-              <img key={user.picture} src={`data:image/jpeg;base64,${user.picture}`} className='h-16 w-16 rounded-full' alt="User" />
-            ) : (
-              <FaUserAlt />
+          <div className='relative' onClick={handleShowMenu}>
+            <div className='border-4 border-solid border-gray-600 p-1 rounded-full cursor-pointer'>
+              {user.picture ? (
+                <img src={`data:image/jpeg;base64,${user.picture}`} className='h-10 w-10 lg:h-12 lg:w-12 xl:h-14 xl:w-14 rounded-full object-cover' alt="User" />
+              ) : (
+                <FaUserAlt className='text-gray-600 text-2xl lg:text-3xl' />
+              )}
+            </div>
+            {showMenu && (
+              <div className='absolute right-0 mt-2 bg-white shadow-lg rounded-lg w-36 p-4 z-20'>
+                {user.picture && (
+                  <div className="text-gray-800 text-lg font-semibold mb-2">
+                    Bonjour {user.firstName} {user.lastName} !
+                  </div>
+                )}
+                {user.type === "ADMIN" && (
+                  <>
+                    <Link to="newproduct" className="block text-gray-700 py-2 hover:bg-gray-100 rounded-md transition-colors duration-300">
+                      Nouveau produit
+                    </Link>
+                    <Link to="managementproduct" className="block text-gray-700 py-2 hover:bg-gray-100 rounded-md transition-colors duration-300">
+                      Gestion produit
+                    </Link>
+                  </>
+                )}
+                {user.picture ? (
+                  <>
+                    <Link to={"account"} className="block text-gray-700 py-2 hover:bg-gray-100 rounded-md transition-colors duration-300">
+                      Mon compte
+                    </Link>
+                    <button onClick={handleDelete} className="block text-gray-700 py-2 hover:bg-gray-100 rounded-md transition-colors duration-300">
+                      Déconnecter
+                    </button>
+                  </>
+                ) : (
+                  <Link to={"login"} className='block text-gray-700 py-2 hover:bg-gray-100 rounded-md transition-colors duration-300'>
+                    Login
+                  </Link>
+                )}
+                <nav className='lg:hidden mt-4'>
+                  <Link to={""} className='block py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-300'>Accueil</Link>
+                  <Link to={"menu/65c7269a5a9b17e45a15f44f"} className='block py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-300'>Menu</Link>
+                  <Link to={"about"} className='block py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-300'>À propos</Link>
+                  <Link to={"contact"} className='block py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-300'>Contact</Link>
+                </nav>
+              </div>
             )}
           </div>
-          {showMenu && (
-            <div className='absolute top-30 right-2 bg-white shadow drop-shadow-md flex flex-col'>
-              {user.picture && (
-                <Link to={""} className="text-xl text-white bg-yellow-500 py-2 px-3 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-yellow-600">
-                  Bonjour {user.firstName} {user.lastName} !
-                </Link>
-              )}
-              {user.type === "ADMIN" && (
-                <>
-                  <Link to="newproduct" className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300">
-                    Nouveau produit
-                  </Link>
-                  <Link to="managementproduct" className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300">
-                    Gestion produit
-                  </Link>
-                </>
-              )}
-              {user.picture ? (
-                <>
-                  <Link to={"account"} className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300">
-                    Mon compte 
-                  </Link>
-                  <Link to={""} className="text-lg text-gray-700 py-2 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-300" onClick={handleDelete}>
-                    Déconnecté
-                  </Link>
-                </>
-              ) : (
-                <Link to={"login"} className='text-3xl whitespace-nowrap cursor-pointer py-1 px-3 text-center'>Login</Link>
-              )}
-              <nav className='text-base md:text-lg flex flex-col min-w-[100px] text-center md:hidden'>
-                <Link to={""} className='px-2 py-1'>Home</Link>
-                <Link to={"menu/65c7269a5a9b17e45a15f44f"} className='px-2 py-1'>Menu</Link>
-                <Link to={"about"} className='px-2 py-1'>About</Link>
-                <Link to={"contact"} className='px-2 py-1'>Contact</Link>
-              </nav>
-            </div>
-          )}
         </div>
       </div>
-    </div>
 
-    <div className='bg-gray-100 py-2'>
-      <div className='container mx-auto flex flex-wrap justify-center gap-2'>
-        {muscles.map((muscle, index) => (
-          <button key={index} className='text-black py-2 px-4 rounded-lg bg-yellow-500 hover:bg-yellow-600 transition-colors duration-300'>
-            {muscle}
-          </button>
-        ))}
-      </div>
-    </div>
-  </header>
-);
+      {(location.pathname === "/" || location.pathname.includes("/menu")) && (
+        <div className='bg-gray-100 py-2'>
+          <div className='container mx-auto flex flex-wrap justify-center gap-2'>
+            {muscles.map((muscle, index) => (
+              <button key={index} className='text-sm lg:text-md xl:text-lg py-2 px-4 rounded-full bg-yellow-500 hover:bg-yellow-600 transition-colors duration-300'>
+                {muscle}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </header>
+  );
 }
-
 export default Header;
 

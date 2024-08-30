@@ -1,76 +1,132 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, {useEffect, useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import CartProduct from '../compoments/CartProduct'
 import emptyCartImage from '../assest/emptyCart.gif'
+import { setCartItems } from '../redux/productSlice'
+import axios from 'axios'
+import toast from 'react-hot-toast'
+
 
 const Cart = () => {
-  
-  const productCartItems = useSelector((state) => state.product.cartProductItems)
-  const totalPrice = productCartItems.reduce((acc, curr) => acc + parseFloat(curr.total), 0)
-  const totalQty = productCartItems.reduce((acc, curr) => acc + parseFloat(curr.qty), 0)
- 
-  console.log(productCartItems)
-
-  return (
-  <div className='p-8 md:p-8'>
+    const [cartLine, setCartLine] = useState()
+    const dispatch = useDispatch();
+    const productCartItems = useSelector((state) => state.product.cartProductItems);
+    const totalQty = productCartItems && productCartItems.reduce((acc, curr) => acc + parseFloat(curr.qty), 0);
+    const totalPrice = productCartItems && productCartItems.reduce((acc, curr) => acc + parseFloat(curr.total), 0);
+     const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    picture: '',
+    type:''
+  });
     
-    <h2 className='text-lg text-slate-800 font-bold md:text-3xl'> Your Cart Product Items</h2>
-    {productCartItems.length > 0 ? (
-  
-    <div className='my-4 flex gap-3'>
-        
-      <div>
-    {productCartItems.map(el => {
-    console.log("Product:", el);
-    return (
-      <CartProduct
-        key={el.id}
-        id={el.id}
-        title={el.title}
-        picture={el.picture}
-        typeMachine={el.typeMachine}
-        qty={el.qty}
-        total={el.total}
-      />
-    );
-    })}
-      </div>
+    useEffect(() => {
 
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/user");
+        if (res.data.status === "Success") {
+          setUser({
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            email: res.data.email,
+            picture: res.data.picture,
+            type: res.data.type
+          });
           
-    
-      <div className='w-full max-w-sm ml-auto'>
-            
-        <h2 className='bg-blue-600 text-white p-2 text-lg'>Summary</h2>
-        
-        <div className='flex w-full py-2 text-lg'>
-              
-              <p>Total Qty:</p>
-              <p className='ml-auto w-32 font-bold'>{totalQty}</p>
-        
-        </div>
-            
-        <div className='flex w-full py-2 text-lg'>
-            
-            <p>Total Price:</p>
-            <p className='ml-auto w-32 font-bold'>{totalPrice}</p>
-        
-        </div>
-        
-        <button className='bg-red-500 w-full text-lg font-bold py-2 text-white'>Payment</button>
-      
-      </div>
-    
-    </div>
-      
-    ) : (
-        
-      <div className='flex w-full justify-center items-center flex-col'>
-          <img src={ emptyCartImage} className='w-full max-w-sm' alt='Empty Cart' />
-          <p className='text-slate-500 text-4xl font-bold'>Empty Cart</p>
-      </div>
-      )}
-  </div>
-  )
-}
+        } else {
+         
+        }
+      } catch (err) {
+        console.log(`Error: ${err}`);
+      }
+    };
 
-export default Cart
+
+    fetchUser();
+  }, []);
+    
+   useEffect(() => {
+        const fetchCartLine = async () => {
+            try {
+                const { data } = await axios.get('http://localhost:8080/getProductToCartLine');
+                if (data.cartItems) {
+                    dispatch(setCartItems(data.cartItems));
+    
+                } else {
+                    toast.error('No items found in cart.');
+                }
+            } catch (err) {
+                console.error(`Error: ${err}`);
+                toast.error('Error fetching cart items.');
+            }
+        };
+
+        fetchCartLine();
+    }, []);
+
+    const handlePayment = async () => {
+        try {
+            const res = await axios.post("http://localhost:8080/checkout-payment", {
+                userId: 1, 
+                items: productCartItems,
+            });
+
+            if (res.data.url) {
+                toast("Redirecting to payment gateway...");
+                window.location.href = res.data.url;
+            }
+        } catch (error) {
+            console.error("Erreur lors du paiement :", error);
+            toast.error("Erreur lors du paiement !");
+        }
+    };
+
+ return (
+     <div className='p-8 md:p-8'>
+            <h2 className='text-lg text-slate-800 font-bold md:text-3xl'>Vos Produits dans le Panier</h2>
+            {productCartItems && productCartItems.length > 0 ? (
+             <div className='my-4 flex gap-3'>
+                    <div>
+                        {productCartItems.map(el => (
+                            <CartProduct
+                                item={el}
+                            />
+                        ))}
+                    </div>
+                    {user ? ( 
+                        <div className='w-full max-w-sm ml-auto'>
+                            <h2 className='bg-blue-600 text-white p-2 text-lg'>Résumé</h2>
+                            <div className='flex w-full py-2 text-lg'>
+                                <p>Total Qty:</p>
+                                <p className='ml-auto w-32 font-bold'>{totalQty}</p>
+                            </div>
+                            <div className='flex w-full py-2 text-lg'>
+                                <p>Total Prix:</p>
+                                <p className='ml-auto w-32 font-bold'>{totalPrice}</p>
+                            </div>
+                            <button
+                                className='bg-red-500 w-full text-lg font-bold py-2 text-white'
+                                onClick={handlePayment}
+                            >
+                                Paiement
+                            </button>
+                        </div>
+                    ) : (
+                        <div className='w-full max-w-sm ml-auto'>
+                            <h2 className='bg-gray-600 text-white p-2 text-lg'>Veuillez vous connecter pour voir le résumé</h2>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className='flex w-full justify-center items-center flex-col'>
+                    {/* <img src={emptyCartImage} className='w-full max-w-sm' alt='Empty Cart' /> */}
+                    <p className='text-slate-500 text-4xl font-bold'>Panier Vide</p>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default Cart;

@@ -64,41 +64,49 @@ const Login = () => {
   };
 
   return (
-    <div className='p-5 md:p-40'>
-      <div className='max-w-md bg-white m-auto flex items-center flex-col p-4'>
-        <div className='w-32 h-25 overflow-hidden rounded-full drop-shadow-md shadow-md'>
-          <img src={loginSignupImage} className='w-full' alt="Login Animation" />
+    <div className='flex items-center justify-center bg-gray-100 '>
+      <div className='bg-white rounded-lg shadow-lg w-full max-w-md p-8 m-24'>
+        <div className='flex justify-center mb-6'>
+          <img src={loginSignupImage} alt="Login Animation" className='w-24 h-24 rounded-full shadow-md' />
         </div>
         
-        <form className='w-full py-3 flex flex-col' onSubmit={handleSubmit}>
-          <label className="text-xl font-medium" htmlFor="email">Email</label>
-          <input
-            type="email"
-            id='email'
-            name='email'
-            autoComplete="current-email"
-            className='mb-4 h-10 text-xl mt-1 mb-2 w-full bg-slate-200 px-2 py-1 rounded'
-            value={data.email}
-            onChange={handleOnChange}
-          />
-          
-          <label className="text-xl font-medium" htmlFor="password">Password</label>
-          <div className='mb-4 h-10 text-xl flex px-2 py-1 rounded mt-1 mb-2 bg-slate-200'>
+        <h2 className='text-2xl font-bold text-gray-800 mb-6 text-center'>Login</h2>
+        
+        <form className='space-y-4' onSubmit={handleSubmit}>
+          <div>
+            <label className='block text-gray-700 text-lg font-medium mb-1' htmlFor="email">Email</label>
             <input
-              type={showPassword ? "text" : "password"}
-              id='password'
-              name='password'
-              autoComplete="current-password"
-              className='w-full bg-slate-200 outline-none'
-              value={data.password}
+              type="email"
+              id='email'
+              name='email'
+              autoComplete="current-email"
+              className='w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500'
+              value={data.email}
               onChange={handleOnChange}
+              required
             />
-            <span className='flex items-center text-xl' onClick={handleShowPassword}>
-              {showPassword ? <BiShow /> : <BiHide />}
-            </span>
+          </div>
+          
+          <div>
+            <label className='block text-gray-700 text-lg font-medium mb-1' htmlFor="password">Password</label>
+            <div className='relative'>
+              <input
+                type={showPassword ? "text" : "password"}
+                id='password'
+                name='password'
+                autoComplete="current-password"
+                className='w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 pr-10'
+                value={data.password}
+                onChange={handleOnChange}
+                required
+              />
+              <span className='absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer' onClick={handleShowPassword}>
+                {showPassword ? <BiShow className='text-gray-600' /> : <BiHide className='text-gray-600' />}
+              </span>
+            </div>
           </div>
 
-          <div className="mb-4 flex justify-center">
+          <div className='mb-4'>
             <ReCAPTCHA
               sitekey={key}
               onChange={handleCaptchaChange}
@@ -106,20 +114,19 @@ const Login = () => {
           </div>
 
           <button 
-            className='w-full max-w-[150px] m-auto bg-sky-300 hover:bg-sky-600 
-            cursor-pointer text-2xl font-medium py-2 px-2 rounded-full mt-4'
+            className='w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out'
             type="submit"
           >
             Login
           </button>
         </form>
 
-        <p className='text-left text-sm mt-2 text-xl'>
-          Vous n'avez pas de compte ? <Link to={"/signup"} className='text-sky-400 text-xl'>Register</Link>
+        <p className='text-gray-600 text-sm mt-4 text-center'>
+          Don't have an account? <Link to={"/signup"} className='text-sky-500 font-semibold'>Register</Link>
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login

@@ -1,10 +1,10 @@
 import express from "express"
-import { getContent } from "../controllers/content.js";
+import { saveContent, getContent } from "../controllers/content.js";
 
 const router = express.Router();
 
-router.get('/getContent', getContent)
-
+router.post('/content/:type', saveContent);
+router.get('/getContent/:type', getContent)
 
 
 export default router;
