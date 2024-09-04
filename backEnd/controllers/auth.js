@@ -7,7 +7,6 @@ import bcrypt from "bcrypt"
 import csrf from 'csrf';
 
 
- 
 const csrfProtection = new csrf();
 const saltRounds = 10
 

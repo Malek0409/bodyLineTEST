@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import loginSignupImage from "../assest/loginAnimation.gif"
 import { BiShow , BiHide } from "react-icons/bi"
 import { Link, useNavigate } from 'react-router-dom'
@@ -105,7 +104,7 @@ return (
         </div>
 
         <label className="text-lg font-semibold text-black" htmlFor="firstName">
-          First Name
+          Prénom
         </label>
         <input
           type="text"
@@ -117,7 +116,7 @@ return (
         />
 
         <label className="text-lg font-semibold text-black" htmlFor="lastName">
-          Last Name
+          Nom
         </label>
         <input
           type="text"
@@ -141,7 +140,7 @@ return (
         />
 
         <label className="text-lg font-semibold text-black" htmlFor="password">
-          Password
+          Mot de passe
         </label>
         <div className="h-12 text-lg flex px-4 py-2 rounded-lg bg-gray-200 focus-within:ring-2 focus-within:ring-gray-900">
           <input
@@ -160,14 +159,35 @@ return (
           </span>
         </div>
 
+        <label className="text-lg font-semibold text-black" htmlFor="password">
+          Confirme Mot de Passe 
+        </label>
+        <div className="h-12 text-lg flex px-4 py-2 rounded-lg bg-gray-200 focus-within:ring-2 focus-within:ring-gray-900">
+          <input
+            type={confirmShowPassword ? "text" : "confirmPassword"}
+            id="confirmPassword"
+            name="confirmPassword"
+            className="w-full bg-transparent outline-none"
+            value={data.confirmPassword}
+            onChange={handleOnChange}
+          />
+          <span
+            className="flex items-center text-2xl text-gray-500 cursor-pointer"
+            onClick={handleConfirmShowPassword}
+          >
+            {showPassword ? <BiShow /> : <BiHide />}
+          </span>
+        </div>
+
+
         <button className="w-full bg-sky-500 hover:bg-sky-600 text-black text-xl font-semibold py-3 rounded-full transition duration-300 ease-in-out">
-          Sign Up
+          Enregistre
         </button>
       </form>
       <p className="text-center text-black mt-4 text-lg">
-        Already have an account?{" "}
+        Vous avez déjà un compte ?{" "}
         <Link to={"/login"} className="text-sky-300 hover:text-sky-400">
-          Login
+          Connexion
         </Link>
       </p>
     </div>
