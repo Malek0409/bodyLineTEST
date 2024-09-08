@@ -14,25 +14,7 @@ const Account = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
 
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //         try {
-    //             const res = await axios.get("http://localhost:8080/user");
-    //             if (res.data.status === "Success") {
-    //                 setUser({
-    //                 firstName: res.data.firstName,
-    //                 lastName: res.data.lastName,
-    //                 email: res.data.email,
-    //                 picture: res.data.picture,
-    //                 });
-    //             }
-    //             } catch (err) {
-    //                 console.log(`Error: ${err}`);
-    //             }
-    //     };
-
-    // fetchUser();
-    // }, []);
+  
     useEffect(() => {
     const fetchUser = async () => {
         try {

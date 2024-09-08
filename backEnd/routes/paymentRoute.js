@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyUser } from "../helpers/verifyUser.js";
-import { checkoutPayment, stripeWebhook } from "../controllers/payment.js";
+import { checkoutPayment, stripeWebhook } from "../controllers/paymentController.js";
 
 const router = express.Router();
 

@@ -16,28 +16,6 @@ const NewProduct = () => {
   const [filePicture, setFilePicture] = useState(null);
 
 
-//  const handleOnChange = (e) => {
-//     const { name, value, checked } = e.target;
-
-//     if (name === "nameMuscle") {
-//       if (checked) {
-//         setData(prev => ({
-//           ...prev,
-//           nameMuscle: [...prev.nameMuscle, value]
-//         }));
-//       } else {
-//         setData(prev => ({
-//           ...prev,
-//           nameMuscle: prev.nameMuscle.filter(muscle => muscle !== value)
-//         }));
-//       }
-//     } else {
-//       setData((prev) => ({
-//         ...prev,
-//         [name]: value,
-//       }));
-//     }
-//  };
   const handleOnChange = (e) => {
   const { name, value, checked } = e.target;
 

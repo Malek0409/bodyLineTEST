@@ -1,12 +1,24 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+/**
+ * Hook personnalisé pour récupérer la liste des produits depuis une API.
+ * 
+ * @returns {Object} Un objet contenant les produits, l'état de chargement 
+ * et les erreurs éventuelles.
+ */
 const useFetchProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    /**
+     * Fonction asynchrone pour récupérer les produits depuis le serveur.
+     * 
+     * @async
+     * @function fetchProducts
+     */
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:8080/getProduct");

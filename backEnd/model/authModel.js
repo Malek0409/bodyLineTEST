@@ -10,7 +10,8 @@ export const createUser = (user, callback) => {
         INSERT INTO user (firstName, lastName, email, password, picture, type, actif, confirmationCode) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const values = [user.firstName, user.lastName, user.email, user.password, user.picture, user.type, user.actif, user.confirmationCode];
+    const values = [user.firstName, user.lastName, user.email, user.password,
+    user.picture, user.type, user.actif, user.confirmationCode];
     bd.query(query, values, callback);
 };
 
