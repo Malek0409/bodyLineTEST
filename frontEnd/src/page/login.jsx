@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import loginSignupImage from "../assest/loginAnimation.gif"
+import loginSignupImage from "../assest/profilSilver.jpg"
 import { BiShow, BiHide } from "react-icons/bi"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios";
@@ -64,17 +64,17 @@ const Login = () => {
   };
 
   return (
-    <div className='flex items-center justify-center bg-gray-100 '>
-      <div className='bg-white rounded-lg shadow-lg w-full max-w-md p-8 m-24'>
-        <div className='flex justify-center mb-6'>
-          <img src={loginSignupImage} alt="Login Animation" className='w-24 h-24 rounded-full shadow-md' />
+    <div className='p-5 md:p-5 min-h-screen flex items-center justify-center bg-gray-100'>
+      <div className='bg-white flex items-center flex-col p-4 ' style={{ width: '450px', height: '600px' }}>
+        <div className='w-32 h-25 overflow-hidden rounded-full drop-shadow-md shadow-md'>
+          <img src={loginSignupImage} alt="Login Animation" className='w-full' />
         </div>
         
-        <h2 className='text-2xl font-bold text-gray-800 mb-6 text-center'>Login</h2>
+        <h2 className='text-center text-2xl font-bold'>Welcome</h2>
         
-        <form className='space-y-4' onSubmit={handleSubmit}>
+        <form className='space-y-4 w-96 py-3 flex flex-col' onSubmit={handleSubmit}>
           <div>
-            <label className='block text-gray-700 text-lg font-medium mb-1' htmlFor="email">Email</label>
+            <label className='block text-gray-700 text-base md:text-lg font-medium mb-1' htmlFor="email">Email</label>
             <input
               type="email"
               id='email'
@@ -88,7 +88,7 @@ const Login = () => {
           </div>
           
           <div>
-            <label className='block text-gray-700 text-lg font-medium mb-1' htmlFor="password">Password</label>
+            <label className='block text-gray-700 text-base md:text-lg font-medium mb-1' htmlFor="password">mot de passe</label>
             <div className='relative'>
               <input
                 type={showPassword ? "text" : "password"}
@@ -100,7 +100,7 @@ const Login = () => {
                 onChange={handleOnChange}
                 required
               />
-              <span className='absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer' onClick={handleShowPassword}>
+              <span className='absolute right-0 top-3 flex items-center cursor-pointer' onClick={handleShowPassword}>
                 {showPassword ? <BiShow className='text-gray-600' /> : <BiHide className='text-gray-600' />}
               </span>
             </div>
@@ -114,15 +114,15 @@ const Login = () => {
           </div>
 
           <button 
-            className='w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out'
+            className='flex items-center justify-center w-96 hover:bg-yellow-600 bg-red-700 text-black font-semibold py-2 px-4 rounded-md  '
             type="submit"
           >
-            Login
+            Connecté 
           </button>
         </form>
 
-        <p className='text-gray-600 text-sm mt-4 text-center'>
-          Don't have an account? <Link to={"/signup"} className='text-sky-500 font-semibold'>Register</Link>
+        <p className='text-sm mt-4 text-center font-bold '>
+          Vous n'avez pas de compte ? <Link to={"/signup"} className='font-semibold'>Inscrivez-vous</Link>
         </p>
       </div>
     </div>

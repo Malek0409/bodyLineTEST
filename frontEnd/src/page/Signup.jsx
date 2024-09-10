@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import loginSignupImage from "../assest/loginAnimation.gif"
+import loginSignupImage from "../assest/profilSilver.jpg"
 import { BiShow , BiHide } from "react-icons/bi"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios";
@@ -79,18 +79,18 @@ const Signup = () => {
   }
 
 return (
-  <div className="bg-gradient-to-br from-sky-100 to-gray-700 min-h-screen flex justify-center items-center">
-    <div className=" max-w-lg to-gray-100 shadow-2xl rounded-lg overflow-hidden p-8 m-auto flex items-center flex-col">
-      <form className="w-full py-5 flex flex-col space-y-4" onSubmit={handleSubmit}>
-        <div className="relative overflow-hidden rounded-full border-4 border-gray-300 shadow-lg">
+  <div className="p-5 md:p-5 min-h-screen flex items-center justify-center bg-gray-100">
+    <div className='bg-white flex items-center flex-col p-4 ' style={{ width: '450px', height: '800px' }}>
+      
+          <div className="relative overflow-hidden rounded-full border-4 border-gray-300 shadow-lg w-32 h-25">
           <img
             src={filePicture ? URL.createObjectURL(filePicture) : loginSignupImage}
-            className="w-full h-40 object-cover"
+            className="w-full object-cover"
             alt="Profile"
           />
           <label
             htmlFor="profilePicture"
-            className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-sm cursor-pointer opacity-0 hover:opacity-100 transition-opacity duration-300"
+            className="absolute inset-0 flex items-center justify-center text-black font-bold text-sm cursor-pointer opacity-0 hover:opacity-100 transition-opacity duration-300"
           >
             Upload
             <input
@@ -102,6 +102,8 @@ return (
             />
           </label>
         </div>
+      <form className="w-full py-5 flex flex-col space-y-4" onSubmit={handleSubmit}>
+    
 
         <label className="text-lg font-semibold text-black" htmlFor="firstName">
           Prénom
@@ -110,7 +112,7 @@ return (
           type="text"
           id="firstName"
           name="firstName"
-          className="h-12 text-lg w-full bg-gray-200 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-900"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
           value={data.firstName}
           onChange={handleOnChange}
         />
@@ -122,7 +124,7 @@ return (
           type="text"
           id="lastName"
           name="lastName"
-          className="h-12 text-lg w-full bg-gray-200 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
           value={data.lastName}
           onChange={handleOnChange}
         />
@@ -134,7 +136,7 @@ return (
           type="email"
           id="email"
           name="email"
-          className="h-12 text-lg w-full bg-gray-200 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
           value={data.email}
           onChange={handleOnChange}
         />
@@ -142,12 +144,12 @@ return (
         <label className="text-lg font-semibold text-black" htmlFor="password">
           Mot de passe
         </label>
-        <div className="h-12 text-lg flex px-4 py-2 rounded-lg bg-gray-200 focus-within:ring-2 focus-within:ring-gray-900">
+        <div className="flex">
           <input
             type={showPassword ? "text" : "password"}
             id="password"
             name="password"
-            className="w-full bg-transparent outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             value={data.password}
             onChange={handleOnChange}
           />
@@ -162,12 +164,12 @@ return (
         <label className="text-lg font-semibold text-black" htmlFor="password">
           Confirme Mot de Passe 
         </label>
-        <div className="h-12 text-lg flex px-4 py-2 rounded-lg bg-gray-200 focus-within:ring-2 focus-within:ring-gray-900">
+        <div className="flex">
           <input
             type={confirmShowPassword ? "text" : "confirmPassword"}
             id="confirmPassword"
             name="confirmPassword"
-            className="w-full bg-transparent outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             value={data.confirmPassword}
             onChange={handleOnChange}
           />
@@ -179,10 +181,11 @@ return (
           </span>
         </div>
 
-
-        <button className="w-full bg-sky-500 hover:bg-sky-600 text-black text-xl font-semibold py-3 rounded-full transition duration-300 ease-in-out">
+       
+        <button className="justify-center hover:bg-yellow-600 text-black font-semibold py-2 px-4 rounded-md  ">
           Enregistre
-        </button>
+          </button>
+         
       </form>
       <p className="text-center text-black mt-4 text-lg">
         Vous avez déjà un compte ?{" "}

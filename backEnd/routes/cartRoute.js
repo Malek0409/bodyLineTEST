@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 
-router.post('/addProductToCart',verifyUser, addProductToCart)
+router.post('/addProductToCart', verifyUser, addProductToCart)
 router.get('/getProductToCartLine', verifyUser, getProductToCartLine)
 router.post('/deleteProductFromCart', verifyUser, deleteProductFromCart)
 router.post('/updateProductToCart', verifyUser, updateProductToCart)

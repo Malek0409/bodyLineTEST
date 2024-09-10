@@ -84,10 +84,11 @@ const Cart = () => {
     };
 
  return (
-     <div className='p-8 md:p-8'>
-            <h2 className='text-lg text-slate-800 font-bold md:text-3xl'>Vos Produits dans le Panier</h2>
+     <div className='p-8 md:p-12'>
+            
+            <h2 className='text-lg text-slate-800 font-bold md:text-4xl p-16 mt-8'>Vos Produits dans le Panier :</h2>
             {productCartItems && productCartItems.length > 0 ? (
-             <div className='my-4 flex gap-3'>
+             <div className='my-4 flex gap-3 mt-4'>
                     <div>
                         {productCartItems.map(el => (
                             <CartProduct
@@ -96,7 +97,7 @@ const Cart = () => {
                         ))}
                     </div>
                     {user ? ( 
-                        <div className='w-full max-w-sm ml-auto'>
+                        <div className=''>
                             <h2 className='bg-blue-600 text-white p-2 text-lg'>Résumé</h2>
                             <div className='flex w-full py-2 text-lg'>
                                 <p>Total Qty:</p>
