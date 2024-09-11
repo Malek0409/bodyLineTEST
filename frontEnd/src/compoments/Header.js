@@ -64,7 +64,8 @@ const Header = () => {
   const location = useLocation();
   
   return (
-    <header className='fixed w-full drop-shadow-md shadow-md bg-white z-10'>
+    <header
+     className='fixed w-full drop-shadow-md shadow-md bg-white z-10'>
       <div className='flex justify-between pr-8 pl-4'>
         <Link to={""}>
           <img src={logoApp} className='h-20 w-32 lg:h-32 lg:w-48' alt="Logo" />

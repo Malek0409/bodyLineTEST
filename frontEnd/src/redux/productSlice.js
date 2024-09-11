@@ -2,12 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+
 const initialState = {
   productList: [],
   cartProductItems: []
 };
-
-
 
 
 export const productSlice = createSlice({
@@ -20,31 +19,34 @@ export const productSlice = createSlice({
     },
     
    addCartProductItemps: (state, action) => {
-    const existingProduct = state.cartProductItems.find(
-      item => item.product.id === action.payload.product.id
-    );
 
-    if (existingProduct) {
-      alert("Item already in Cart");
-    } else {
-      state.cartProductItems.push(action.payload);
-      console.log(state.cartProductItems);
 
-      try {
-        axios.post("http://localhost:8080/addProductToCart", {
-          productID: action.payload.product.id,
-        })
-        .then((res) => {
-          if (res.data.status === "Item added successfully") {
-            alert(res.data.status);
-          } else {
-            alert(res.data.Error);
-          }
-        });
-      } catch (error) {
-        console.error("There was an error adding the product to the cart:", error);
-      }
+  const existingProduct = state.cartProductItems.find(
+    item => item.product.id === action.payload.product.id
+  );
+
+  if (existingProduct) {
+    alert("L'article est déjà dans le panier");
+  } else {
+    state.cartProductItems.push(action.payload);
+    console.log(state.cartProductItems);
+
+    try {
+      axios.post("http://localhost:8080/addProductToCart", {
+        productID: action.payload.product.id,
+      })
+      .then((res) => {
+        if (res.data.status === "Item added successfully") {
+          alert(res.data.status);
+        } else {
+          alert(res.data.Error);
+        }
+      });
+    } catch (error) {
+      console.error("Une erreur est survenue lors de l'ajout du produit au panier:", error);
     }
+  }
+
   },
 
   
@@ -77,39 +79,29 @@ export const productSlice = createSlice({
         alert("Produit non trouvé dans le panier");
     }
 },
-    //   increaseQty: (state, id) => {
-    //   const index = state.cartProductItems.findIndex(el => el.id === id.payload);
-    //   let qty = state.cartProductItems[index].qty;
-    //   const qtyInc = ++qty;
-    //   state.cartProductItems[index].qty = qtyInc;
-    //   const price = state.cartProductItems[index].price;
-    //   const total = price * qtyInc;
-    //   state.cartProductItems[index].total = total;
-    //   },
-     
-    // decreaseQty: (state, id) => {
-    //   const index = state.cartProductItems.findIndex(el => el.id === id.payload);
-    //   let qty = state.cartProductItems[index].qty;
-    //   if (qty > 1) {
-    //     const qtyDec = --qty;
-    //     state.cartProductItems[index].qty = qtyDec;
-    //     const price = state.cartProductItems[index].price;
-    //     const total = price * qtyDec;
-    //     state.cartProductItems[index].total = total;
-    //   }
-    // },
-    increaseQty: (state, action) => {
-  const index = state.cartProductItems.findIndex(el => el.id === action.payload.id);
-  if (index !== -1) {
+
+increaseQty: (state, action) => {
+  const item = state.cartProductItems.find((el) => el === action.payload);
+  console.log(state.cartProductItems)
+  
+  console.log(action.payload)
+
+  if (item) {
     try {
       axios.post("http://localhost:8080/updateProductToCart", {
-        productID: action.payload.id,
+        productID: action.payload,
         action: "increment"
       }).then(res => {
         if (res.data.status === "Quantité mise à jour") {
-          let qty = state.cartProductItems[index].qty + 1;
-          state.cartProductItems[index].qty = qty;
-          state.cartProductItems[index].total = state.cartProductItems[index].price * qty;
+          let qty = item.qty;
+          const qtyInc = ++qty; 
+          item.qty = qtyInc; 
+          
+          const price = item.price;
+          const total = price * qtyInc; 
+          item.total = total; 
+
+          console.log(qtyInc);
         } else {
           toast(res.data.error);
         }
@@ -120,10 +112,13 @@ export const productSlice = createSlice({
   }
 },
 
-decreaseQty: (state, action) => {
-  const index = state.cartProductItems.findIndex(el => el.id === action.payload.id);
+    decreaseQty: (state, action) => {
+  console.log("test")
+      const index = state.cartProductItems.findIndex(el => el.id === action.payload.id);
+      console.log(index !== -1 && state.cartProductItems[index].qty > 1)
+      console.log(index)
   if (index !== -1 && state.cartProductItems[index].qty > 1) {
-    try {
+    try { 
       axios.post("http://localhost:8080/updateProductToCart", {
         productID: action.payload.id,
         action: "decrement"

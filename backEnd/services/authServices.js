@@ -39,3 +39,7 @@ export const generateTokens = (userId) => {
     const token = jwt.sign({ userId: userId }, "jwt-secret-key", { expiresIn: "1d" });
     return { token, csrfToken };
 };
+export const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};

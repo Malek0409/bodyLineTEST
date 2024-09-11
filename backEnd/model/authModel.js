@@ -5,14 +5,14 @@ export const findUserByEmail = (email, callback) => {
     bd.query(query, [email], callback);
 };
 
-export const createUser = (user, callback) => {
+export const createUser = (user) => {
     const query = `
         INSERT INTO user (firstName, lastName, email, password, picture, type, actif, confirmationCode) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [user.firstName, user.lastName, user.email, user.password,
-    user.picture, user.type, user.actif, user.confirmationCode];
-    bd.query(query, values, callback);
+        user.picture, user.type, user.actif, user.confirmationCode];
+    return bd.promise().execute(query, values);
 };
 
 

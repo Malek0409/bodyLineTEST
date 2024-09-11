@@ -3,15 +3,24 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addCartProductItemps } from '../redux/productSlice';
 import useFetchProducts from '../redux/useFetchProducts';
-
+import useFetchUser from '../redux/useFetchUser'
 const CardFeature = ({ selectedCategory }) => {
   const dispatch = useDispatch();
   const { products, loading } = useFetchProducts();
+  const { user } = useFetchUser(); 
 
   const handleAddCartProduct = (product) => {
+    if (!user || !user.email) {
+      alert("Vous devez être connecté pour ajouter un produit au panier");
+      window.location = "/signup";
+      return;
+    }
+
     dispatch(addCartProductItemps({ product }));
   };
 
+
+  
   const filteredProducts = selectedCategory
     ? products.filter(product => product.typeMachine === selectedCategory)
     : products;

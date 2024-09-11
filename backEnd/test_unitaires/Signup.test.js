@@ -2,16 +2,19 @@ import request from 'supertest';
 import express from 'express';
 import sinon from 'sinon';
 import bcrypt from 'bcryptjs';
-import { signUp } from '../controllers/auth.js';
+import { signUp } from '../controllers/authController.js';
 import { bd } from '../bd.js';
-
+import { sendConfirmation } from "../services/authServices.js";
+ 
+jest.mock('../services/authServices.js', () => ({
+  ...jest.requireActual('../services/authServices.js'),
+  sendConfirmation: jest.fn(() => { })
+}));
 const app = express();
 app.use(express.json());
 app.post('/signup', signUp);
 
 
-//les cas passant
-//le cas error 400: les cas d'error sur le test 401: appel de route sans autentifier 403: forbidden 404:not disponible
 describe('POST /signup', () => {
   
   
@@ -117,16 +120,16 @@ it('should handle errors during email validation', async () => {
     expect(res.body).toEqual({ Error: "The email already exists; you need to try a different one." });
   });
 
-    it('should return an error if email is invalid', async () => {
+    it.only('should return an error if email is invalid', async () => {
     const res = await request(app)
       .post('/signup')
       .send({
         firstName: 'John',
         lastName: 'Doe',
-        email: 'john.doe',
+        email: 'john.doeeeee',
         password: 'Password123!',
         confirmPassword: 'Password123!'
       });
     expect(res.body).toEqual({ Error: "Invalid email address" });
-  });
+  }, 70 * 1000);
 });

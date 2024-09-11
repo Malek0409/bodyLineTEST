@@ -1,5 +1,5 @@
 import { findUserByEmail, createUser, verifyUserEmail, activateUser, findUserById } from "../model/authModel.js";
-import { hashPassword, comparePasswords, generateTokens, generateConfirmationCode, validatePassword, sendConfirmation } from "../services/authServices.js";
+import { hashPassword, comparePasswords, generateTokens, generateConfirmationCode, validatePassword, sendConfirmation, validateEmail } from "../services/authServices.js";
 
 export const signUp = async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword } = req.body;
@@ -16,6 +16,10 @@ export const signUp = async (req, res) => {
         return res.status(400).json({ Error: "Passwords do not match" });
     }
 
+     if (!validateEmail(email)) {
+        return res.status(400).json({ Error: "Invalid email address" });
+    }
+
     if (!validatePassword(password)) {
       return res.status(400).json({
         Error: `Password must be at least 8 characters long and include at least one lowercase 
@@ -25,15 +29,15 @@ export const signUp = async (req, res) => {
     try {
         const hashedPassword = await hashPassword(password);
         const newUser = { firstName, lastName, email, password: hashedPassword, picture, type, actif, confirmationCode: code };
+        await createUser(newUser);
+        
+        await sendConfirmation(email, code);
 
-        createUser(newUser, async (err) => {
-            if (err) {
-                return res.status(409).json({ Error: "The email already exists; you need to try a different one." });
-            }
-            await sendConfirmation(email, code);
-            return res.status(200).json({ status: "Success", message: "Check your email for the confirmation code." });
-        });
+        return res.status(200).json({ status: "Success", message: "Check your email for the confirmation code." });
     } catch (err) {
+        if (err) {
+           return res.status(400).json({ Error: "The email already exists; you need to try a different one." });
+       } 
         return res.status(500).json({ Error: "Server error" });
     }
 };

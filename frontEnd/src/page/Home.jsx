@@ -1,12 +1,35 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FcPrevious, FcNext } from "react-icons/fc";
 import CardFeature from '../compoments/CardFeature';
 import AllProduct from '../compoments/AllProduct';
 import videoFitness from '../assest/videoFitness.mp4';
 import CookieConsent from '../compoments/cookiesConsent';
+import { setCartItems } from '../redux/productSlice'
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const dispatch = useDispatch()
+     useEffect(() => {
+        const fetchCartLine = async () => {
+            try {
+                const { data } = await axios.get('http://localhost:8080/getProductToCartLine');
+                if (data.cartItems) {
+                    dispatch(setCartItems(data.cartItems));
+    
+                } else {
+                    toast.error('No items found in cart.');
+                }
+            } catch (err) {
+                console.error(`Error: ${err}`);
+                toast.error('Error fetching cart items.');
+            }
+        };
+
+        fetchCartLine();
+    }, []);
 
   const handleChange = (event) => {
     setSelectedCategory(event.target.value);

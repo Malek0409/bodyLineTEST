@@ -1,6 +1,5 @@
 import mysql from "mysql2"
 
-
 export const bd = mysql.createConnection({
     host: "localhost",
     user: "root",

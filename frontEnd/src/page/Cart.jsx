@@ -1,19 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import CartProduct from '../compoments/CartProduct'
-import emptyCartImage from '../assest/emptyCart.gif'
 import { setCartItems } from '../redux/productSlice'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
 
 const Cart = () => {
-    const [cartLine, setCartLine] = useState()
     const dispatch = useDispatch();
     const productCartItems = useSelector((state) => state.product.cartProductItems);
-    const totalQty = productCartItems && productCartItems.reduce((acc, curr) => acc + parseFloat(curr.qty), 0);
-    const totalPrice = productCartItems && productCartItems.reduce((acc, curr) => acc + parseFloat(curr.total), 0);
-     const [user, setUser] = useState({
+    const totalQty = productCartItems && productCartItems.reduce((acc, curr) => acc + parseFloat(curr.quantite), 0);
+    const totalPrice = productCartItems && productCartItems.reduce((acc, curr) => acc + parseFloat(curr.quantite * curr.price), 0);
+   
+    const [user, setUser] = useState({
     firstName: '',
     lastName: '',
     email: '',

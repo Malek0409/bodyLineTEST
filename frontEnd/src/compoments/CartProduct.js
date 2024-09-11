@@ -3,25 +3,26 @@ import { TbPlus, TbMinus } from 'react-icons/tb';
 import { AiFillDelete } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { decreaseQty, deleteCartProductItemps, increaseQty } from '../redux/productSlice';
+import arrayBufferToBase64 from '../utility/arrayBufferToBase64.js'
 
-function CartProduct({item, qty, total}) {
-  console.log(item);
+function CartProduct({item}) {
+  
+  const total = (item.price * item.quantite)
  
    const dispatch = useDispatch();
    const handleDeleteCartProductItemps = (id) => {
     dispatch(deleteCartProductItemps({ id }));
   };
-  
- 
-
-
-  
 
   return (
     <div className='bg-slate-200 max-w-4xl p-2 flex gap-6 rounded border-2 border-slate-300'>
       <div className='p-3 bg-white rounded overflow-hidden'>
-        <img src={`data:image/jpeg;base64,${item.picture}`} className='h-70 w-80 object-cover' alt='' />
-      </div>
+  {item.picture && item.picture.data ? (
+    <img src={`data:image/jpeg;base64,${arrayBufferToBase64(item.picture.data)}`} className='h-70 w-80 object-cover' alt='' />
+  ) : (
+    <p>Image non disponible</p>
+  )}
+</div>
       <div className='flex flex-col gap-1 rounded w-full'>
         <div className='flex justify-between'>
           <h3 className='font-semibold text-slate-600 capitalize text-4xl md:text-4xl py-2'>
@@ -38,7 +39,7 @@ function CartProduct({item, qty, total}) {
             <button className='bg-slate-300 py-1 mt-2 rounded hover:bg-slate-500 text-2xl p-1' onClick={() => dispatch(increaseQty(item.id))}>
               <TbPlus />
             </button>
-            <p className='text-2xl font-semibold p-1'>{qty}</p>
+            <p className='text-2xl font-semibold p-1'>{item.quantite}</p>
             <button className='bg-slate-300 hover:bg-slate-500 py-1 mt-2 rounded text-2xl p-1' onClick={() => dispatch(decreaseQty(item.id))}>
               <TbMinus />
             </button>
