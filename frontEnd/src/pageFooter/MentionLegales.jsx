@@ -20,7 +20,9 @@ const MentionLegales = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+
         const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`);
+
         if (res.data.status === "Success") {
           setUser({
             firstName: res.data.firstName,
@@ -38,7 +40,9 @@ const MentionLegales = () => {
 
     const fetchContent = async () => {
       try {
+
         const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/getContent/mentions_legales`);
+
         if (res.data.status === "Success") {
           setContent(res.data.content);
         }
@@ -67,6 +71,7 @@ const MentionLegales = () => {
     setError(null);
     try {
       await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/content/mentions_legales`, { content: newContent });
+
       setContent(newContent);
       setIsEditing(false);
     } catch (err) {

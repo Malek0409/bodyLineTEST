@@ -56,6 +56,7 @@ const Signup = () => {
       if (data.password === data.confirmPassword) {
         try {
           const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/signup`, formData, {
+
             headers: {
               "Content-Type": "multipart/form-data",
             },

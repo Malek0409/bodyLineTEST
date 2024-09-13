@@ -11,6 +11,7 @@ const VerifyCode = () => {
     e.preventDefault();
     try {
       const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/verify-code`, { email, code });
+
       if (res.data.status === "Success") {
         alert("Code vérifié avec succès !");
         navigate("/login"); 

@@ -24,7 +24,9 @@ const Cart = () => {
 
     const fetchUser = async () => {
       try {
+
         const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`);
+
         if (res.data.status === "Success") {
           setUser({
             firstName: res.data.firstName,
@@ -49,7 +51,7 @@ const Cart = () => {
    useEffect(() => {
         const fetchCartLine = async () => {
             try {
-                const { data } = await axios.get('http://localhost:8080/getProductToCartLine');
+                const { data } = await axios.get('http://15.237.183.184:8080/getProductToCartLine');
                 if (data.cartItems) {
                     dispatch(setCartItems(data.cartItems));
     
@@ -68,6 +70,7 @@ const Cart = () => {
     const handlePayment = async () => {
         try {
             const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/checkout-payment`, {
+
                 userId: 1, 
                 items: productCartItems,
             });

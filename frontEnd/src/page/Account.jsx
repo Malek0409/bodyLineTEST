@@ -21,6 +21,7 @@ const Account = () => {
             console.log("Fetching user data...");
 
             const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`);
+
             console.log("Response received:", res);
 
             if (res.data.status === "Success") {
@@ -69,6 +70,7 @@ const handleSubmit = async (e) => {
     formData.append('picture', user.picture);
 
     const res = await axios.put(`${process.env.REACT_APP_SERVER_DOMIN}/updateUser`, formData, {
+
       headers: {
         "Content-Type": "multipart/form-data"
       }
@@ -92,7 +94,9 @@ console.log("User it's updated:", {
  
 const handleDeleteAccount = async () => {
   try {
+
     const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/deactivateUser`);
+
 
     if (res.data.status === "Account deactivated successfully") {
       alert("Votre compte a été désactivé.");

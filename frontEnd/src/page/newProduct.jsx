@@ -71,7 +71,9 @@ const NewProduct = () => {
  if (data.title && data.price && data.currency && data.unitNumber && data.description){
     
    try {
+
           const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/addProduct`, formData, {
+
             headers: {
               "Content-Type": "multipart/form-data",
             },

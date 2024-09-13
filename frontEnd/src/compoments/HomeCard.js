@@ -9,7 +9,9 @@ function HomeCard() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+
         const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/getProductByRand/${id}`);
+
        if (response.data.status === "Success")
          setProduct({
           title: response.data.title,
