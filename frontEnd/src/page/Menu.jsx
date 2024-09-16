@@ -13,7 +13,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://15.237.183.184:8080/getProduct/${filterby}`);
+        const response = await axios.get(`https://api.bodyline.site/getProduct/${filterby}`);
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching the product data', error);

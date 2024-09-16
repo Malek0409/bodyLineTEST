@@ -51,7 +51,7 @@ const Cart = () => {
    useEffect(() => {
         const fetchCartLine = async () => {
             try {
-                const { data } = await axios.get('http://15.237.183.184:8080/getProductToCartLine');
+                const { data } = await axios.get('https://api.bodyline.site/getProductToCartLine');
                 if (data.cartItems) {
                     dispatch(setCartItems(data.cartItems));
     
