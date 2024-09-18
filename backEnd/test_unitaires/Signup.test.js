@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import bcrypt from 'bcryptjs';
 import { signUp } from '../controllers/authController.js';
 import { bd } from '../bd.js';
-import { sendConfirmation } from "../services/authServices.js";
  
 jest.mock('../services/authServices.js', () => ({
   ...jest.requireActual('../services/authServices.js'),
@@ -120,7 +119,7 @@ it('should handle errors during email validation', async () => {
     expect(res.body).toEqual({ Error: "The email already exists; you need to try a different one." });
   });
 
-    it.only('should return an error if email is invalid', async () => {
+    it('should return an error if email is invalid', async () => {
     const res = await request(app)
       .post('/signup')
       .send({
@@ -131,5 +130,5 @@ it('should handle errors during email validation', async () => {
         confirmPassword: 'Password123!'
       });
     expect(res.body).toEqual({ Error: "Invalid email address" });
-  }, 70 * 1000);
+  });
 });

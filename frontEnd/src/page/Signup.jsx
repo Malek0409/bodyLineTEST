@@ -55,7 +55,7 @@ const Signup = () => {
     if (data.firstName && data.lastName && data.email && data.password && data.confirmPassword) {
       if (data.password === data.confirmPassword) {
         try {
-          const res = await axios.post("http://localhost:8080/signup", formData, {
+          const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/signup`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -90,7 +90,8 @@ return (
           />
           <label
             htmlFor="profilePicture"
-            className="absolute inset-0 flex items-center justify-center text-black font-bold text-sm cursor-pointer opacity-0 hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 flex items-center justify-center text-black font-bold text-sm
+          cursor-pointer opacity-0 hover:opacity-100 transition-opacity duration-300"
           >
             Upload
             <input
@@ -182,14 +183,14 @@ return (
         </div>
 
        
-        <button className="justify-center hover:bg-yellow-600 text-black font-semibold py-2 px-4 rounded-md  ">
+        <button className="justify-center hover:bg-yellow-600 bg-yellow-500 text-black font-semibold py-2 px-4 rounded-md  ">
           Enregistre
           </button>
          
       </form>
       <p className="text-center text-black mt-4 text-lg">
         Vous avez déjà un compte ?{" "}
-        <Link to={"/login"} className="text-sky-300 hover:text-sky-400">
+        <Link to={"/login"} className="font-semibold">
           Connexion
         </Link>
       </p>

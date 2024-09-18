@@ -45,7 +45,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:8080/login", {
+      const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/login`, {
         ...data,
         recaptcha: captchaValue
       });
@@ -74,7 +74,7 @@ const Login = () => {
         
         <form className='space-y-4 w-96 py-3 flex flex-col' onSubmit={handleSubmit}>
           <div>
-            <label className='block text-gray-700 text-base md:text-lg font-medium mb-1' htmlFor="email">Email</label>
+            <label className='block text-gray-700  md:text-lg font-medium mb-1' htmlFor="email">Email</label>
             <input
               type="email"
               id='email'
@@ -88,7 +88,7 @@ const Login = () => {
           </div>
           
           <div>
-            <label className='block text-gray-700 text-base md:text-lg font-medium mb-1' htmlFor="password">mot de passe</label>
+            <label className='block text-gray-700  md:text-lg font-medium mb-1' htmlFor="password">mot de passe</label>
             <div className='relative'>
               <input
                 type={showPassword ? "text" : "password"}
@@ -114,15 +114,15 @@ const Login = () => {
           </div>
 
           <button 
-            className='flex items-center justify-center w-96 hover:bg-yellow-600 bg-red-700 text-black font-semibold py-2 px-4 rounded-md  '
+            className='flex items-center justify-center w-96 hover:bg-yellow-600 bg-yellow-500 text- font-semibold py-2 px-4 rounded-md'
             type="submit"
           >
-            Connecté 
+            Connecter
           </button>
         </form>
 
-        <p className='text-sm mt-4 text-center font-bold '>
-          Vous n'avez pas de compte ? <Link to={"/signup"} className='font-semibold'>Inscrivez-vous</Link>
+        <p className='text-sm mt-4 text-center font-bold'>
+          Vous n'avez pas de compte ? <Link to={"/signup"} className='font-semibold text-yellow-500'>Inscrivez-vous</Link>
         </p>
       </div>
     </div>

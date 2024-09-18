@@ -32,7 +32,7 @@ export const productSlice = createSlice({
     console.log(state.cartProductItems);
 
     try {
-      axios.post("http://localhost:8080/addProductToCart", {
+      axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/addProductToCart`, {
         productID: action.payload.product.id,
       })
       .then((res) => {
@@ -62,7 +62,7 @@ export const productSlice = createSlice({
       state.cartProductItems.splice(index, 1);
 
       try {
-            axios.post("http://localhost:8080/deleteProductFromCart", {
+            axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/deleteProductFromCart`, {
               cartLineId: action.payload.id,
             })
             .then((res) => {
@@ -88,7 +88,7 @@ increaseQty: (state, action) => {
 
   if (item) {
     try {
-      axios.post("http://localhost:8080/updateProductToCart", {
+      axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/updateProductToCart`, {
         productID: action.payload,
         action: "increment"
       }).then(res => {
@@ -119,7 +119,7 @@ increaseQty: (state, action) => {
       console.log(index)
   if (index !== -1 && state.cartProductItems[index].qty > 1) {
     try { 
-      axios.post("http://localhost:8080/updateProductToCart", {
+      axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/updateProductToCart`, {
         productID: action.payload.id,
         action: "decrement"
       }).then(res => {

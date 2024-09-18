@@ -1,8 +1,6 @@
 import Stripe from "stripe";
 import { bd } from "../bd.js";
-import dotenv from 'dotenv';
 
-dotenv.config();
 
 const STRIPE_SECRET_KEY = "sk_test_51POYHLGqmHQNBz36jK488m4fsA4btiwqaqJ7d2EP5nazVfRKu57NKTdF51BTIOfWYDK3I1wufvOb0mXjV3Yu2A9n00j5gWt7Da";
 const stripe = new Stripe(STRIPE_SECRET_KEY);

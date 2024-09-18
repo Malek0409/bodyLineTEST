@@ -1,5 +1,6 @@
 import express from "express"
-import { saveContent, getContent } from "../controllers/contentController.js";
+import { saveContent, getContent }
+    from "../controllers/contentController.js";
 
 const router = express.Router();
 

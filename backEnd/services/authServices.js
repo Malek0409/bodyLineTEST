@@ -12,11 +12,10 @@ export const hashPassword = async (password) => {
     return await promisify(bcrypt.hash)(password, saltRounds);
 };
 
-// export const hashPassword = async (password) => {
-//     const hashedPassword = await promisify(bcrypt.hash)(password, saltRounds);
-//     console.log(`Length of hashed password: ${hashedPassword.length}`);
-//     return hashedPassword;
-// };
+export const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
 
 export const generateConfirmationCode = () => {
     return crypto.randomBytes(3).toString("hex");
@@ -38,8 +37,4 @@ export const generateTokens = (userId) => {
     const csrfToken = csrfProtection.create("csrf-secret-key");
     const token = jwt.sign({ userId: userId }, "jwt-secret-key", { expiresIn: "1d" });
     return { token, csrfToken };
-};
-export const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
 };

@@ -30,7 +30,7 @@ const Header = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/user");
+        const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`);
         if (res.data.status === "Success") {
           setUser({
             firstName: res.data.firstName,
@@ -54,7 +54,7 @@ const Header = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.get("http://localhost:8080/logout");
+      await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/logout`);
       window.location.reload(true);
     } catch (err) {
       console.log(err);

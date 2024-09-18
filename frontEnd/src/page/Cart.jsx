@@ -24,7 +24,7 @@ const Cart = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/user");
+        const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`);
         if (res.data.status === "Success") {
           setUser({
             firstName: res.data.firstName,
@@ -67,7 +67,7 @@ const Cart = () => {
 
     const handlePayment = async () => {
         try {
-            const res = await axios.post("http://localhost:8080/checkout-payment", {
+            const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/checkout-payment`, {
                 userId: 1, 
                 items: productCartItems,
             });

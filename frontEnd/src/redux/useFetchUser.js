@@ -27,7 +27,7 @@ const useFetchUser = () => {
      */
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/user");
+        const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`);
         if (res.data.status === "Success") {
           setUser({
             firstName: res.data.firstName,

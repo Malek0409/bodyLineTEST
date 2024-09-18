@@ -11,6 +11,8 @@ import toast from 'react-hot-toast';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  
+  
   const dispatch = useDispatch()
      useEffect(() => {
         const fetchCartLine = async () => {

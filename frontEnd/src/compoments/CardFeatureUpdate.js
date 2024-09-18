@@ -38,7 +38,7 @@ const CardFeatureUpdate = () => {
       formData.append('title', updatedProductData.title);
       formData.append('typeMachine', updatedProductData.typeMachine);
 
-      const res = await axios.post("http://localhost:8080/updateProduct", formData, {
+      const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/updateProduct`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
