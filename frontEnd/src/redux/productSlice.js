@@ -33,7 +33,7 @@ export const productSlice = createSlice({
 
     try {
 
-      axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/addProductToCart`, {
+      axios.post(`https://api.bodyline.site/addProductToCart`, {
 
         productID: action.payload.product.id,
       })
@@ -64,7 +64,7 @@ export const productSlice = createSlice({
       state.cartProductItems.splice(index, 1);
 
       try {
-            axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/deleteProductFromCart`, {
+            axios.post(`https://api.bodyline.site/deleteProductFromCart`, {
 
               cartLineId: action.payload.id,
             })
@@ -91,7 +91,7 @@ increaseQty: (state, action) => {
 
   if (item) {
     try {
-      axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/updateProductToCart`, {
+      axios.post(`https://api.bodyline.site/updateProductToCart`, {
 
         productID: action.payload,
         action: "increment"
@@ -123,7 +123,7 @@ increaseQty: (state, action) => {
       console.log(index)
   if (index !== -1 && state.cartProductItems[index].qty > 1) {
     try { 
-      axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/updateProductToCart`, {
+      axios.post(`https://api.bodyline.site/updateProductToCart`, {
 
         productID: action.payload.id,
         action: "decrement"

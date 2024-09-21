@@ -21,7 +21,7 @@ const MentionLegales = () => {
     const fetchUser = async () => {
       try {
 
-        const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`);
+        const res = await axios.get(`https://api.bodyline.site/user`);
 
         if (res.data.status === "Success") {
           setUser({
@@ -41,7 +41,7 @@ const MentionLegales = () => {
     const fetchContent = async () => {
       try {
 
-        const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/getContent/mentions_legales`);
+        const res = await axios.get(`https://api.bodyline.site/getContent/mentions_legales`);
 
         if (res.data.status === "Success") {
           setContent(res.data.content);
@@ -70,7 +70,7 @@ const MentionLegales = () => {
     setIsSaving(true);
     setError(null);
     try {
-      await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/content/mentions_legales`, { content: newContent });
+      await axios.post(`https://api.bodyline.site/content/mentions_legales`, { content: newContent });
 
       setContent(newContent);
       setIsEditing(false);

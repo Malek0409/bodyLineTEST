@@ -55,7 +55,7 @@ const Signup = () => {
     if (data.firstName && data.lastName && data.email && data.password && data.confirmPassword) {
       if (data.password === data.confirmPassword) {
         try {
-          const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/signup`, formData, {
+          const res = await axios.post(`https://api.bodyline.site/signup`, formData, {
 
             headers: {
               "Content-Type": "multipart/form-data",

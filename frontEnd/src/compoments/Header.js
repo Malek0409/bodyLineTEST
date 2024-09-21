@@ -31,7 +31,7 @@ const Header = () => {
     const fetchUser = async () => {
       try {
 
-        const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`); 
+        const res = await axios.get(`https://api.bodyline.site/user`); 
 
         if (res.data.status === "Success") {
           setUser({
@@ -57,7 +57,7 @@ const Header = () => {
   const handleDelete = async () => {
     try {
 
-      await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/logout`);
+      await axios.get(`https://api.bodyline.site/logout`);
 
       window.location.reload(true);
     } catch (err) {

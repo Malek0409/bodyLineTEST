@@ -39,7 +39,7 @@ const CardFeatureUpdate = () => {
       formData.append('typeMachine', updatedProductData.typeMachine);
 
 
-      const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/updateProduct`, formData, {
+      const res = await axios.post(`https://api.bodyline.site/updateProduct`, formData, {
 
 
         headers: {

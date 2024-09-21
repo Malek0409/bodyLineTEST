@@ -10,7 +10,7 @@ function HomeCard() {
     const fetchProduct = async () => {
       try {
 
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/getProductByRand/${id}`);
+        const response = await axios.get(`https://api.bodyline.site/getProductByRand/${id}`);
 
        if (response.data.status === "Success")
          setProduct({

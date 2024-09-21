@@ -21,7 +21,7 @@ const useFetchProducts = () => {
      */
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/getProduct`);
+        const response = await axios.get(`https://api.bodyline.site/getProduct`);
 
         if (response.data.status === "Success") {
           setProducts(response.data.products);

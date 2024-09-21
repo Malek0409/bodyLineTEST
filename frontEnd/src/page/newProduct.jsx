@@ -72,7 +72,7 @@ const NewProduct = () => {
     
    try {
 
-          const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/addProduct`, formData, {
+          const res = await axios.post(`https://api.bodyline.site/addProduct`, formData, {
 
             headers: {
               "Content-Type": "multipart/form-data",

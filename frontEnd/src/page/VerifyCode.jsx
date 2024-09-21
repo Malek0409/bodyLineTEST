@@ -10,7 +10,7 @@ const VerifyCode = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/verify-code`, { email, code });
+      const res = await axios.post(`https://api.bodyline.site/verify-code`, { email, code });
 
       if (res.data.status === "Success") {
         alert("Code vérifié avec succès !");

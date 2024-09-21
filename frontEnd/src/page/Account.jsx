@@ -20,7 +20,7 @@ const Account = () => {
         try {
             console.log("Fetching user data...");
 
-            const res = await axios.get(`${process.env.REACT_APP_SERVER_DOMIN}/user`);
+            const res = await axios.get(`https://api.bodyline.site/user`);
 
             console.log("Response received:", res);
 
@@ -69,7 +69,7 @@ const handleSubmit = async (e) => {
     formData.append('confirmPassword', confirmPassword);
     formData.append('picture', user.picture);
 
-    const res = await axios.put(`${process.env.REACT_APP_SERVER_DOMIN}/updateUser`, formData, {
+    const res = await axios.put(`https://api.bodyline.site/updateUser`, formData, {
 
       headers: {
         "Content-Type": "multipart/form-data"
@@ -95,7 +95,7 @@ console.log("User it's updated:", {
 const handleDeleteAccount = async () => {
   try {
 
-    const res = await axios.post(`${process.env.REACT_APP_SERVER_DOMIN}/deactivateUser`);
+    const res = await axios.post(`https://api.bodyline.site/deactivateUser`);
 
 
     if (res.data.status === "Account deactivated successfully") {

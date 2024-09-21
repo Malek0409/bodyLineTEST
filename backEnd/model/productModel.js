@@ -8,10 +8,10 @@ export const insertProduct = (values) => {
   return new Promise((resolve, reject) => {
     bd.query(queryProductPost, values, (err, result) => {
       if (err) {
-        reject(err);
-      } else {
+       return  reject(err);
+      } 
         resolve(result.insertId);
-      }
+      
     });
   });
 };
@@ -21,10 +21,10 @@ export const insertPicture = (productID, picture) => {
   return new Promise((resolve, reject) => {
     bd.query(queryPicture, [productID, picture], (err) => {
       if (err) {
-        reject(err);
-      } else {
+       return reject(err);
+      } 
         resolve();
-      }
+      
     });
   });
 };
@@ -34,10 +34,10 @@ export const insertTypeMachine = (productID, typeMachine) => {
   return new Promise((resolve, reject) => {
     bd.query(queryTypeMachine, [productID, typeMachine], (err) => {
       if (err) {
-        reject(err);
-      } else {
+       return reject(err);
+      } 
         resolve();
-      }
+      
     });
   });
 };
@@ -47,10 +47,10 @@ export const insertNameMuscle = (productID, nameMuscle) => {
   return new Promise((resolve, reject) => {
     bd.query(queryNameMuscle, [productID, nameMuscle], (err) => {
       if (err) {
-        reject(err);
-      } else {
+        return reject(err);
+      } 
         resolve();
-      }
+      
     });
   });
 };
