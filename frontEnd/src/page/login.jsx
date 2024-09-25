@@ -9,7 +9,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [captchaValue, setCaptchaValue] = useState(null);
 
-  const key = "6LddtC0qAAAAAJt7bWJlNnfUoIzhLIskfyicD4s8"
+  const key = "6LdMZk4qAAAAAPy4XQDXNFYCwkdmlnEoPXiHOOoG"
 
   const [data, setData] = useState({
     email: "",
